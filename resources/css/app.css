@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --couleur-principale: #1A4883;   /* bleu marine du logo — en-têtes, boutons primaires */
+        --couleur-accent: #F2801F;       /* orange du logo — éléments d'action secondaires, badges promo */
+        --couleur-texte: #1A1A1A;
+        --couleur-texte-secondaire: #555555;
+        --couleur-fond: #FFFFFF;
+        --couleur-fond-alterne: #F2F4F7;
+        --couleur-succes: #2E7D32;       /* confirmation paiement, stock disponible */
+        --couleur-alerte: #C0392B;       /* rupture de stock, erreur */
+        --couleur-avertissement: #C08A2E; /* stock faible, en attente */
+    }
+
+    body {
+        @apply bg-fond text-texte text-base antialiased;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* Toast : message court de confirmation (vert) ou d'erreur (rouge) */
+    .vendo-toast {
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: var(--couleur-succes);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity .25s ease, transform .25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .vendo-toast.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .vendo-toast-erreur {
+        background: var(--couleur-alerte);
+    }
+
+    .vendo-toast [data-vendo-toast-fermer] {
+        background: none;
+        border: 0;
+        color: inherit;
+        font-size: 18px;
+        line-height: 1;
+        padding: 0;
+        opacity: .7;
+    }
+}
+
+/* ── Bouton + : animation lift + glow périodique (pure CSS) ── */
+@keyframes fab-lift-cycle {
+    0%, 85%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 4px 12px rgba(26, 72, 131, 0.3);
+    }
+    90% {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(26, 72, 131, 0.5);
+    }
+}
+
+.fab-lift-cycle {
+    animation: fab-lift-cycle 4s ease-in-out infinite;
+}
+
+/* ── Confetti particles ────────────────────────────────────── */
+@keyframes confetti-particule {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+.fab-confetti-particle {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--couleur);
+    animation: confetti-particule 1s ease-out var(--delai) forwards;
+}
