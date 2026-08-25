@@ -97,6 +97,65 @@ INSERT INTO `boutiques` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cache`
+--
+
+DROP TABLE IF EXISTS `cache`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL,
+  PRIMARY KEY (`key`),
+  KEY `cache_expiration_index` (`expiration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache`
+--
+
+LOCK TABLES `cache` WRITE;
+/*!40000 ALTER TABLE `cache` DISABLE KEYS */;
+INSERT INTO `cache` VALUES
+('vendo-cache-0190947303|127.0.0.1','i:1;',1787245761),
+('vendo-cache-0190947303|127.0.0.1:timer','i:1787245761;',1787245761),
+('vendo-cache-0196141340|127.0.0.1','i:1;',1787319750),
+('vendo-cache-0196141340|127.0.0.1:timer','i:1787319750;',1787319750),
+('vendo-cache-0197123456|127.0.0.1','i:1;',1787306251),
+('vendo-cache-0197123456|127.0.0.1:timer','i:1787306251;',1787306251),
+('vendo-cache-97000000|127.0.0.1','i:1;',1787245793),
+('vendo-cache-97000000|127.0.0.1:timer','i:1787245793;',1787245793);
+/*!40000 ALTER TABLE `cache` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cache_locks`
+--
+
+DROP TABLE IF EXISTS `cache_locks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` int(11) NOT NULL,
+  PRIMARY KEY (`key`),
+  KEY `cache_locks_expiration_index` (`expiration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache_locks`
+--
+
+LOCK TABLES `cache_locks` WRITE;
+/*!40000 ALTER TABLE `cache_locks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache_locks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `categories`
 --
 
@@ -171,6 +230,95 @@ INSERT INTO `commandes` VALUES
 (3,1,NULL,'VE-3P7O','youir','0190947303','Cocotomey','livree',24000,NULL,NULL,NULL,'2026-08-20 10:19:50','2026-08-20 10:21:50'),
 (4,1,NULL,'VE-NMTE','Client Test','0197123456',NULL,'annulee',24000,NULL,NULL,NULL,'2026-08-21 08:52:42','2026-08-21 08:55:49');
 /*!40000 ALTER TABLE `commandes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `failed_jobs`
+--
+
+DROP TABLE IF EXISTS `failed_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `failed_jobs`
+--
+
+LOCK TABLES `failed_jobs` WRITE;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `job_batches`
+--
+
+DROP TABLE IF EXISTS `job_batches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `job_batches` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `job_batches`
+--
+
+LOCK TABLES `job_batches` WRITE;
+/*!40000 ALTER TABLE `job_batches` DISABLE KEYS */;
+/*!40000 ALTER TABLE `job_batches` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jobs`
+--
+
+DROP TABLE IF EXISTS `jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jobs`
+--
+
+LOCK TABLES `jobs` WRITE;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -258,6 +406,30 @@ INSERT INTO `migrations` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `password_reset_tokens`
+--
+
+DROP TABLE IF EXISTS `password_reset_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reset_tokens`
+--
+
+LOCK TABLES `password_reset_tokens` WRITE;
+/*!40000 ALTER TABLE `password_reset_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `produits`
 --
 
@@ -300,6 +472,55 @@ INSERT INTO `produits` VALUES
 (5,1,NULL,'Robes Test Fresh',NULL,3000,NULL,5,'robe.png',1,0,'2026-08-14 14:05:28','2026-08-17 15:22:58'),
 (6,1,NULL,'pagne tradritionnel',NULL,4000,NULL,3,'pagne.png',1,0,'2026-08-14 14:08:29','2026-08-17 15:22:58');
 /*!40000 ALTER TABLE `produits` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sessions_user_id_index` (`user_id`),
+  KEY `sessions_last_activity_index` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES
+('32rk0qs4KiCgAV0YijZsomVCCYDsy3jqChJz7qoO',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiVVl4QUVzeE5EdWJrTTBQSVB5SDh3RG9jZzFWam00WlJQdUx5MHY1USI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318201),
+('7n3NhcgDOCPPrAZ4hqNgOZ28SjQeA9RpJ6h57PcP',NULL,'127.0.0.1','curl/7.88.1','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiTW5QUmJETmZPY0hkaFk1RVNUNTg0dXVXUXUwc0x0QkxKUG9pVVIwMyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjI6e2k6MDtzOjEwOiJfb2xkX2lucHV0IjtpOjE7czo2OiJlcnJvcnMiO31zOjM6Im5ldyI7YTowOnt9fXM6MTA6Il9vbGRfaW5wdXQiO2E6NDp7czo2OiJfdG9rZW4iO3M6NDA6Ik1uUFJiRE5mT2NIZGhZNUVTVDU4NHV1V1F1MHNMdEJMSlBvaVVSMDMiO3M6NDoibmFtZSI7czoxOiJYIjtzOjk6InRlbGVwaG9uZSI7czozOiIxMjMiO3M6MTI6ImJvdXRpcXVlX25vbSI7czoxOiJCIjt9czo2OiJlcnJvcnMiO086MzE6IklsbHVtaW5hdGVcU3VwcG9ydFxWaWV3RXJyb3JCYWciOjE6e3M6NzoiACoAYmFncyI7YToxOntzOjc6ImRlZmF1bHQiO086Mjk6IklsbHVtaW5hdGVcU3VwcG9ydFxNZXNzYWdlQmFnIjoyOntzOjExOiIAKgBtZXNzYWdlcyI7YToxOntzOjk6InRlbGVwaG9uZSI7YToxOntpOjA7czoxMDA6Ik51bcOpcm8gZGUgdMOpbMOpcGhvbmUgaW52YWxpZGUuIFV0aWxpc2V6IGxlIGZvcm1hdCBiw6luaW5vaXMgw6AgMTAgY2hpZmZyZXMgKGV4LiA6IDAxIDk3IDEyIDM0IDU2KS4iO319czo5OiIAKgBmb3JtYXQiO3M6ODoiOm1lc3NhZ2UiO319fX0=',1787319088),
+('7Reb4co5Sb7voDrGAUGRlb9oP7w6q15Gb8so2QcJ',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoid1Jod09SdjIzYUxJNDlTQ0U2V3ZGQkFIZDBmTEVtSUlwaEs4SWRXYSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318529),
+('8fyNufw8i8EFTjG3yOWn30gaQXHnABq6DlIPeTqq',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiOUw2OEdTN1hyY0tZMnFIc3p6cnBEQkdOWFl4SVZoS2s1R3YwZ243YyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NTI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib3V0aXF1ZS9ib3V0aXF1ZS1haWNoYS9wYW5pZXIiO3M6NToicm91dGUiO3M6NjoicGFuaWVyIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1787318529),
+('iVHvohqjmwCwypT46bj5zZ1CNFXoVlZapJlcEf0d',NULL,'127.0.0.1','Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1','YTo0OntzOjY6Il90b2tlbiI7czo0MDoic1dwSENDN3ZDbGk3ZHFhRU55dDRvRlFKT2JOakdRYjRhUTFrbXRyUyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2Rhc2hib2FyZCI7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787322837),
+('jPxY9HnoSfuOqqoVMNjETCL9Wd1C77FuRi7oRmw2',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiMlJiVGt4dWRxNFp4ZmdyNXRCZlNwSVFCRlNRNXJmYzlTOGtLQmhTRSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787319087),
+('LLjt2td8AsciVxbwJQvZ9jLbvbwPrb5bL5h09BIU',6,'127.0.0.1','curl/7.88.1','YTo0OntzOjY6Il90b2tlbiI7czo0MDoib1dteXpTRzlsdUlvZDV2TDZPYjRoVk1tSXFPeWJmWVR4aTNLaWlMWSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Njt9',1787320508),
+('mm8m6tkTIXxpS90IrmchP2sJ2nxpuY6PQXeSIhMt',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiajFuMEM1SGY1R1pnRFByTkNCclhpeFltUkk0bURiaXhMTHNoTFE3NyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318420),
+('MtzuK14ZZNjjq7sEPlVCUd1l6cKsTxnuzbaMKYU2',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiN2dpZ0VTQjRGY1pwa1V0ektqamNmOGxxTDdIM20waWMySERwa09LMiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318402),
+('nLtN1MOP1rUTYHyuZ4zme61wjZkMUSYo9h6ad3RY',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiYlBXWDFZdE9YeWh3RWlsMThVOWdRSXQxcXMxNEhHV2tta0VwT2wydSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787319087),
+('nx9ZS466lbFqQEjuJGamtUgsGqGN96H5Erm8N4Q6',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiYjJ2UUxhSFBGSnFoa29rVXRjbmpuRHY0RE9COVFhZ2h3OTU3WmVOaSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318109),
+('Og4qUVv77NIM2ro0ZEjXUgMnTzSzq9G6iz8MNdCk',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiNmlHN1RSVVAxbVdrUXllODRoVFlqU1E3dXN3NzJCYTZ1cU1zOWlpRCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787319088),
+('pPFtja1NiIg5o9TXemKZkfZfweXSyLagP0TB8Sjx',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiUGFieVRYc0RsN0RhdW9ENERBY2RUa1FUN01vY3M2QW9aOUoyN3oyRCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318486),
+('QwgVnOExDP3M2NRRAvM4azykqOzFSW8tZiSYoF9X',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiTlZva1lVVVRrTExVM3k5NzRKOFdoM2VnVnVHVkdOdUE5YVdTRWluSiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1787318510),
+('uugrR1R3sD3urLdZXdpvdO7LBxkkebP6u8hOLR1G',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoicFFibFJaNzBqNmVLMjY2MVZtZFBra3pJUmFPYnJQdDNQdXBDUzNkcSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318420),
+('Y7s5sh3skNBWX6FGHKuDe1KyF9iuUIHZ3aYFE1ZC',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiRjV3cGhhdUFWMmV0WUtrRjBocHVIMmlaUkZCdTJHcUh6SndSRFpxbCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib3V0aXF1ZS9ib3V0aXF1ZS1haWNoYSI7czo1OiJyb3V0ZSI7czoyNToiYm91dGlxdWUtcHVibGlxdWUuYWNjdWVpbCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318529),
+('YVe4q3PvnkKHvXkzg6eSlE6B7BeCiO0AwbUTED5D',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiZmhGWkZEWW1jWnlGd01NQXA1ZERWSEdwbHIxMExmdkJkYkVCczFBbSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318197),
+('YwzS2I7e4mbQMGNRo6sM3FuUTu5Bsut2Av0yTlsF',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiVE80Y1V4b0xXTXdVUmhudWV0bkw1QkNCTGVEVndmSmNyVEQwTzlqeSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NTI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib3V0aXF1ZS9ib3V0aXF1ZS1haWNoYS9wYW5pZXIiO3M6NToicm91dGUiO3M6NjoicGFuaWVyIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1787318551),
+('ZtKPkdHOymaBVTz8EjHs1eyr94XmBOTFDw9bCwJA',NULL,'127.0.0.1','curl/7.88.1','YTozOntzOjY6Il90b2tlbiI7czo0MDoiV2pHY0htU2Rjc2xEM1IyWjZQSktycDRJV2tnRHB6YjBlRFhBMVg3biI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib3V0aXF1ZS9ib3V0aXF1ZS1haWNoYSI7czo1OiJyb3V0ZSI7czoyNToiYm91dGlxdWUtcHVibGlxdWUuYWNjdWVpbCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1787318529);
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -348,4 +569,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-08-21 14:59:15
+-- Dump completed on 2026-08-26  0:29:35
