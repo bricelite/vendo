@@ -18,14 +18,12 @@
     </head>
     <body class="font-sans text-texte antialiased">
         <div id="vendo-toasts" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm space-y-2 pointer-events-none"></div>
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-fond-alterne">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             <div class="mb-6">
-                <a href="/" class="inline-block overflow-hidden rounded-full" style="width:72px;height:72px">
-                    <img src="/images/logo.png" alt="Vendo" style="width:100%;height:100%;object-fit:cover">
-                </a>
+                <a href="/" class="text-3xl font-bold text-principale">Vendo</a>
             </div>
 
-            <div class="w-full sm:max-w-md px-6 py-6 bg-fond shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-md px-6 py-6 glass-solid shadow-md overflow-hidden sm:rounded-2xl">
                 {{ $slot }}
             </div>
         </div>

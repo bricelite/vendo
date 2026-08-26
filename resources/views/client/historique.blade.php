@@ -13,17 +13,15 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-texte antialiased bg-fond-alterne">
-        <header class="bg-principale">
-            <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-                <a href="/" class="flex items-center gap-2">
-                    <img src="/images/logo.png" alt="Vendo" class="h-8 w-auto">
-                </a>
+    <body class="font-sans text-texte antialiased">
+        <header class="glass rounded-none">
+            <div class="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+                <a href="/" class="text-lg font-bold text-principale">Vendo</a>
                 <div class="flex items-center gap-3">
-                    <span class="text-fond text-sm font-medium">{{ Auth::user()->name }}</span>
+                    <span class="text-texte text-sm font-medium">{{ Auth::user()->name }}</span>
                     <form method="POST" action="{{ route('client.logout') }}">
                         @csrf
-                        <button type="submit" class="text-fond/80 text-sm hover:text-fond">Déconnexion</button>
+                        <button type="submit" class="text-texte-secondaire text-sm hover:text-alerte">Déconnexion</button>
                     </form>
                 </div>
             </div>
@@ -33,13 +31,13 @@
             <h1 class="text-2xl font-bold text-texte">Mes commandes</h1>
 
             @if ($commandes->isEmpty())
-                <div class="mt-6 bg-fond rounded-2xl shadow-sm p-10 text-center">
+                <div class="mt-6 glass-solid rounded-2xl p-10 text-center">
                     <p class="text-texte-secondaire">Vous n'avez pas encore passé de commande.</p>
                 </div>
             @else
                 <div class="mt-4 space-y-3">
                     @foreach ($commandes as $commande)
-                        <div class="bg-fond rounded-2xl p-4 shadow-sm">
+                        <div class="glass-solid rounded-2xl p-4">
                             <div class="flex items-center justify-between gap-3">
                                 <div class="min-w-0">
                                     <p class="font-semibold text-texte">{{ $commande->reference_courte }}</p>
@@ -54,7 +52,7 @@
                             </div>
 
                             @if ($commande->lignes->isNotEmpty())
-                                <div class="mt-3 pt-3 border-t border-fond-alterne">
+                                <div class="mt-3 pt-3 border-t border-white/10">
                                     @foreach ($commande->lignes as $ligne)
                                         <p class="text-sm text-texte-secondaire">
                                             {{ $ligne->nom_produit }} × {{ $ligne->quantite }}

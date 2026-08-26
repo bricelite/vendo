@@ -4,19 +4,22 @@
 
 @layer base {
     :root {
-        --couleur-principale: #1A4883;   /* bleu marine du logo — en-têtes, boutons primaires */
-        --couleur-accent: #F2801F;       /* orange du logo — éléments d'action secondaires, badges promo */
-        --couleur-texte: #1A1A1A;
-        --couleur-texte-secondaire: #555555;
-        --couleur-fond: #FFFFFF;
-        --couleur-fond-alterne: #F2F4F7;
-        --couleur-succes: #2E7D32;       /* confirmation paiement, stock disponible */
-        --couleur-alerte: #C0392B;       /* rupture de stock, erreur */
-        --couleur-avertissement: #C08A2E; /* stock faible, en attente */
+        --couleur-principale: #3B82F6;   /* bleu ciel — en-têtes, boutons primaires */
+        --couleur-accent: #EAB308;       /* jaune doré — badges promo, CTA secondaire */
+        --couleur-texte: #1E293B;
+        --couleur-texte-secondaire: #64748B;
+        --couleur-fond: #EFF6FF;
+        --couleur-fond-alterne: #DBEAFE;
+        --couleur-succes: #22C55E;       /* confirmation paiement, stock disponible */
+        --couleur-alerte: #EF4444;       /* rupture de stock, erreur */
+        --couleur-avertissement: #F59E0B; /* stock faible, en attente */
     }
 
     body {
-        @apply bg-fond text-texte text-base antialiased;
+        @apply text-texte text-base antialiased;
+        background: linear-gradient(160deg, #DBEAFE 0%, #FEF3C7 50%, #DBEAFE 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
     }
 
     [x-cloak] {
@@ -24,8 +27,48 @@
     }
 }
 
+/* ── Liquid Glass ────────────────────────────────────────── */
 @layer components {
-    /* Toast : message court de confirmation (vert) ou d'erreur (rouge) */
+    .glass {
+        background: rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 1.5rem;
+        box-shadow:
+            0 8px 32px rgba(31, 38, 135, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .glass-solid {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 1.5rem;
+        box-shadow:
+            0 8px 32px rgba(31, 38, 135, 0.10),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-subtle {
+        background: rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(12px) saturate(150%);
+        -webkit-backdrop-filter: blur(12px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.20);
+        border-radius: 1rem;
+    }
+
+    .glass-dark {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ── Toast ─────────────────────────────────────────────── */
     .vendo-toast {
         padding: 12px 16px;
         border-radius: 12px;
@@ -64,15 +107,26 @@
     }
 }
 
+/* ── Scroll reveal animation ────────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* ── Bouton + : animation lift + glow périodique (pure CSS) ── */
 @keyframes fab-lift-cycle {
     0%, 85%, 100% {
         transform: translateY(0);
-        box-shadow: 0 4px 12px rgba(26, 72, 131, 0.3);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
     90% {
         transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(26, 72, 131, 0.5);
+        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.5);
     }
 }
 
@@ -80,7 +134,7 @@
     animation: fab-lift-cycle 4s ease-in-out infinite;
 }
 
-/* ── Confetti particles ────────────────────────────────────── */
+/* ── Confetti particles ────────────────────────────────── */
 @keyframes confetti-particule {
     0% {
         transform: translate(0, 0) scale(1);

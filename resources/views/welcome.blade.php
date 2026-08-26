@@ -23,17 +23,17 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                background-color: #1A4883;
+                background: linear-gradient(160deg, #3B82F6, #2563EB);
                 transition: opacity .5s ease, visibility .5s ease;
             }
             #splash.ferme {
                 opacity: 0;
                 visibility: hidden;
             }
-            #splash img {
+            #splash .splash-text {
                 opacity: 0;
                 transform: scale(.9);
-                animation: splash-logo .6s ease forwards;
+                animation: splash-fade .6s ease forwards;
             }
             #splash .barre {
                 width: 180px;
@@ -49,10 +49,10 @@
                 height: 100%;
                 width: 0;
                 border-radius: 9999px;
-                background: #F2801F;
+                background: #EAB308;
                 animation: splash-progress 2s ease forwards;
             }
-            @keyframes splash-logo {
+            @keyframes splash-fade {
                 to { opacity: 1; transform: scale(1); }
             }
             @keyframes splash-progress {
@@ -60,139 +60,192 @@
             }
         </style>
     </head>
-    <body class="font-sans text-texte antialiased bg-fond">
+    <body class="font-sans text-texte antialiased">
 
+        {{-- Splash screen --}}
         <div id="splash" aria-hidden="true">
-            <div style="width:128px;max-width:50vw;aspect-ratio:1;overflow:hidden;display:block;border-radius:50%">
-                <img src="/images/logo.png" alt="" style="width:100%;height:100%;object-fit:cover">
+            <div class="splash-text">
+                <span class="text-4xl font-bold text-white tracking-tight">Vendo</span>
             </div>
             <div class="barre"><span></span></div>
         </div>
 
-        <header class="bg-principale">
-            <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-                <a href="/" class="overflow-hidden rounded-full" style="width:40px;height:40px">
-                    <img src="/images/logo.png" alt="Vendo" style="width:100%;height:100%;object-fit:cover">
-                </a>
-                <nav class="flex items-center gap-4">
+        {{-- Nav flottante glass --}}
+        <nav class="fixed top-0 inset-x-0 z-40 glass rounded-none rounded-b-2xl border-t-0 border-x-0">
+            <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+                <a href="/" class="text-lg font-bold text-principale">Vendo</a>
+                <nav class="flex items-center gap-3">
                     @auth
-                        <a href="{{ route('dashboard') }}" class="text-sm font-medium text-fond hover:text-accent">
+                        <a href="{{ route('dashboard') }}"
+                           class="px-4 py-2 text-sm font-medium text-principale hover:text-white hover:bg-principale rounded-xl transition">
                             Tableau de bord
                         </a>
                     @else
                         @if (Route::has('login'))
-                            <a href="{{ route('login') }}" class="text-sm font-medium text-fond hover:text-accent">
+                            <a href="{{ route('login') }}"
+                               class="px-4 py-2 text-sm font-medium text-principale hover:text-white hover:bg-principale rounded-xl transition">
                                 Se connecter
                             </a>
                         @endif
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}"
-                               class="text-sm font-semibold bg-accent text-white px-4 py-2 rounded-md">
+                               class="px-5 py-2 text-sm font-semibold bg-accent text-white rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
                                 Créer ma boutique
                             </a>
                         @endif
                     @endauth
                 </nav>
             </div>
-        </header>
+        </nav>
 
-        <main>
-            <section class="bg-principale"
-                     style="background-image: url('/images/accueil.jpg'); background-size: cover; background-position: center;">
-                <div class="max-w-3xl mx-auto px-4 py-14 sm:py-24">
-                    <div class="max-w-xl mx-auto text-center rounded-2xl px-5 py-8 sm:px-10 sm:py-12 shadow-lg"
-                         style="background: rgba(26, 72, 131, 0.85);">
-                        <h1 class="text-2xl sm:text-4xl font-bold text-fond leading-snug"
-                            x-data="{ mots: ['WhatsApp', 'Instagram', 'Facebook'], index: 0 }"
-                            x-init="setInterval(() => index = (index + 1) % mots.length, 2200)">
-                            Ta boutique <span class="text-accent" x-text="mots[index]"></span>,<br>enfin organisée.
-                        </h1>
-                        <p class="mt-4 text-sm sm:text-base text-fond leading-relaxed">
-                            Tu vends déjà sur WhatsApp ou Instagram ? Vendo te donne une boutique en ligne,
-                            un suivi des commandes et un tableau de bord simple — sans remplacer tes réseaux.
-                        </p>
+        {{-- Hero plein écran --}}
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden"
+                 style="background-image: url('/images/accueil.jpg'); background-size: cover; background-position: center;">
+            <div class="absolute inset-0 bg-gradient-to-b from-principale/80 via-principale/60 to-principale/90"></div>
 
-                        @auth
-                            <a href="{{ route('dashboard') }}"
-                               class="mt-8 inline-block w-full sm:w-auto px-10 py-4 bg-accent text-white font-bold text-base rounded-lg shadow-lg">
-                                Ouvrir mon tableau de bord
-                            </a>
-                        @else
-                            <a href="{{ route('register') }}"
-                               class="mt-8 inline-block w-full sm:w-auto px-10 py-4 bg-accent text-white font-bold text-base rounded-lg shadow-lg">
-                                Créer ma boutique
-                            </a>
-                            <p class="mt-4 text-sm text-fond">
-                                Déjà une boutique ?
-                                <a href="{{ route('login') }}" class="font-semibold text-accent underline underline-offset-2">
-                                    Se connecter
-                                </a>
-                            </p>
-                            <div class="mt-8 grid grid-cols-3 border-t border-white/20 pt-6">
-                                <div class="text-center px-2">
-                                    <p class="text-xl sm:text-2xl font-bold text-fond">0 FCFA</p>
-                                    <p class="text-xs text-fond/70">pour démarrer</p>
-                                </div>
-                                <div class="text-center px-2 border-x border-white/20">
-                                    <p class="text-xl sm:text-2xl font-bold text-fond">100%</p>
-                                    <p class="text-xs text-fond/70">Mobile Money</p>
-                                </div>
-                                <div class="text-center px-2">
-                                    <p class="text-xl sm:text-2xl font-bold text-fond">5 min</p>
-                                    <p class="text-xs text-fond/70">pour démarrer</p>
-                                </div>
-                            </div>
-                        @endauth
+            <div class="relative z-10 max-w-3xl mx-auto px-5 pt-20 pb-16 text-center">
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
+                    x-data="{ mots: ['WhatsApp', 'Instagram', 'Facebook'], index: 0 }"
+                    x-init="setInterval(() => index = (index + 1) % mots.length, 2200)">
+                    Ta boutique<br>
+                    <span class="text-accent" x-text="mots[index]"></span>, enfin organisée.
+                </h1>
+
+                <p class="mt-5 text-base sm:text-lg text-white/80 max-w-lg mx-auto leading-relaxed">
+                    Tu vends déjà sur tes réseaux ? Vendo te donne une boutique en ligne,
+                    un suivi des commandes et un tableau de bord — tout simple.
+                </p>
+
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                       class="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-accent text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                        Ouvrir mon tableau de bord
+                    </a>
+                @else
+                    <a href="{{ route('register') }}"
+                       class="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-accent text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                        Créer ma boutique
+                    </a>
+                    <p class="mt-3 text-sm text-white/70">
+                        Déjà inscrit ?
+                        <a href="{{ route('login') }}" class="font-semibold text-white hover:underline">Se connecter</a>
+                    </p>
+                @endauth
+
+                {{-- Stats glass --}}
+                <div class="mt-12 grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                    <div class="glass rounded-xl px-3 py-4 text-center">
+                        <p class="text-xl sm:text-2xl font-bold text-white">0 <span class="text-sm font-normal">FCFA</span></p>
+                        <p class="text-xs text-white/60 mt-1">pour démarrer</p>
+                    </div>
+                    <div class="glass rounded-xl px-3 py-4 text-center">
+                        <p class="text-xl sm:text-2xl font-bold text-white">100%</p>
+                        <p class="text-xs text-white/60 mt-1">Mobile Money</p>
+                    </div>
+                    <div class="glass rounded-xl px-3 py-4 text-center">
+                        <p class="text-xl sm:text-2xl font-bold text-white">5 <span class="text-sm font-normal">min</span></p>
+                        <p class="text-xs text-white/60 mt-1">pour démarrer</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="max-w-3xl mx-auto px-4 py-10">
-                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm">
+        {{-- Comment ça marche --}}
+        <section class="py-20 px-5">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-2xl sm:text-3xl font-bold text-texte text-center mb-12 reveal"
+                    x-intersect:enter="true" x-effect="$el.classList.toggle('visible', inView)">
+                    Comment ça marche
+                </h2>
+
+                <div class="space-y-6">
+                    <div class="glass-solid p-6 flex items-start gap-5 reveal"
+                         x-intersect:enter="true" x-effect="$el.classList.toggle('visible', inView)">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-principale text-white flex items-center justify-center font-bold text-lg">
+                            1
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-texte text-lg">Publiez vos produits</h3>
+                            <p class="text-sm text-texte-secondaire mt-1">Ajoutez vos articles avec photos, prix et stock en quelques secondes.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-solid p-6 flex items-start gap-5 reveal"
+                         x-intersect:enter="true" x-effect="$el.classList.toggle('visible', inView)">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-accent text-white flex items-center justify-center font-bold text-lg">
+                            2
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-texte text-lg">Encaissez les commandes</h3>
+                            <p class="text-sm text-texte-secondaire mt-1">Vos clients commandent en ligne, vous recevez le paiement via Mobile Money.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-solid p-6 flex items-start gap-5 reveal"
+                         x-intersect:enter="true" x-effect="$el.classList.toggle('visible', inView)">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-succes text-white flex items-center justify-center font-bold text-lg">
+                            3
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-texte text-lg">Suivez tout</h3>
+                            <p class="text-sm text-texte-secondaire mt-1">Tableau de bord simple : commandes, stock, revenus — tout est là.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- Témoignage --}}
+        <section class="py-16 px-5">
+            <div class="max-w-lg mx-auto reveal"
+                 x-intersect:enter="true" x-effect="$el.classList.toggle('visible', inView)">
+                <div class="glass-solid p-6 sm:p-8 text-center">
                     <p class="text-base sm:text-lg text-texte leading-relaxed italic">
                         &laquo;&nbsp;Je ne perds plus les commandes dans mes messages WhatsApp.
                         Mes clientes commandent, je suis prévenue, c'est tout.&nbsp;&raquo;
                     </p>
-                    <div class="mt-5 flex items-center gap-3">
+                    <div class="mt-5 flex items-center justify-center gap-3">
                         <div class="h-10 w-10 rounded-full bg-principale flex items-center justify-center text-white font-bold text-sm">
                             A
                         </div>
-                        <div>
+                        <div class="text-left">
                             <p class="text-sm font-semibold text-texte">Aïcha</p>
                             <p class="text-xs text-texte-secondaire">Vendeuse de vêtements — Cotonou</p>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="max-w-3xl mx-auto px-4 py-12">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-fond-alterne rounded-2xl p-5 text-center">
-                        <div class="mx-auto h-14 w-14 rounded-full bg-principale flex items-center justify-center">
-                            <svg class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
-                            </svg>
-                        </div>
-                        <p class="mt-3 text-base font-semibold text-texte">Publiez</p>
-                        <p class="mt-1 text-xs text-texte-secondaire">Ajoutez vos articles avec prix et stock.</p>
-                    </div>
-                    <div class="bg-fond-alterne rounded-2xl p-5 text-center">
-                        <div class="mx-auto h-14 w-14 rounded-full bg-principale flex items-center justify-center">
-                            <svg class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
-                            </svg>
-                        </div>
-                        <p class="mt-3 text-base font-semibold text-texte">Encaissez</p>
-                        <p class="mt-1 text-xs text-texte-secondaire">Vos clients commandent, vous encaissez.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="border-t border-fond-alterne">
-            <div class="max-w-3xl mx-auto px-4 py-6 text-center text-xs text-texte-secondaire">
-                Vendo · la plateforme de commerce social au Bénin
             </div>
+        </section>
+
+        {{-- CTA final --}}
+        <section class="py-20 px-5">
+            <div class="max-w-3xl mx-auto text-center glass-dark p-8 sm:p-12 reveal"
+                 x-intersect:enter="true" x-effect="$el.classList.toggle('visible', inView)">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">
+                    Commence maintenant
+                </h2>
+                <p class="mt-3 text-white/70">
+                    C'est gratuit, sans engagement.
+                </p>
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                       class="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-accent text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                        Ouvrir mon tableau de bord
+                    </a>
+                @else
+                    <a href="{{ route('register') }}"
+                       class="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-accent text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                        Créer ma boutique
+                    </a>
+                @endauth
+            </div>
+        </section>
+
+        {{-- Footer minimal --}}
+        <footer class="py-8 px-5 text-center">
+            <p class="text-xs text-texte-secondaire">
+                Vendo &middot; La plateforme de commerce social au Bénin &middot; {{ date('Y') }}
+            </p>
         </footer>
 
         <script>
