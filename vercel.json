@@ -1,4 +1,7 @@
 {
+    "framework": null,
+    "installCommand": "",
+    "buildCommand": "",
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.7.4"
@@ -10,6 +13,6 @@
         { "src": "/uploads/(.*)", "dest": "/public/uploads/$1" },
         { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
         { "src": "/robots.txt", "dest": "/public/robots.txt" },
-        { "src": "/(.*)", "dest": "/public/index.php" }
+        { "src": "/(.*)", "dest": "/api/index.php" }
     ]
 }
