@@ -15,9 +15,15 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.store('panier', {
         articles: JSON.parse(localStorage.getItem(clePanier) || '[]'),
+        modeLivraison: localStorage.getItem(clePanier + '_mode') || 'livraison',
 
         sauvegarder() {
             localStorage.setItem(clePanier, JSON.stringify(this.articles));
+        },
+
+        setModeLivraison(mode) {
+            this.modeLivraison = mode;
+            localStorage.setItem(clePanier + '_mode', mode);
         },
 
         nombreArticles() {

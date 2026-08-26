@@ -13,6 +13,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                fraunces: ['Fraunces', ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 principale: 'var(--couleur-principale)',
@@ -25,6 +26,13 @@ export default {
                 alerte: 'var(--couleur-alerte)',
                 avertissement: 'var(--couleur-avertissement)',
                 noir: '#000000',
+                'vendo-navy': '#1F3A5F',
+                'vendo-navy-dark': '#16283F',
+                'vendo-gold': '#C08A2E',
+                'vendo-gold-light': '#F0C878',
+                'vendo-cream': '#FBF7EE',
+                'vendo-border': '#E7DFCB',
+                'vendo-text-muted': '#8A7550',
             },
         },
     },

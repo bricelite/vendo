@@ -28,6 +28,7 @@ class CommandeController extends Controller
             'client_nom' => ['required', 'string', 'max:100'],
             'client_telephone' => ['required', 'string', 'max:30', new TelephoneBenin()],
             'client_localite' => ['nullable', 'string', 'max:100'],
+            'mode_retrait' => ['required', 'string', 'in:livraison,retrait'],
             'articles' => ['required', 'array', 'min:1'],
             'articles.*.produit_id' => ['required', 'integer'],
             'articles.*.quantite' => ['required', 'integer', 'min:1'],
@@ -42,6 +43,7 @@ class CommandeController extends Controller
                     'client_nom' => $donnees['client_nom'],
                     'client_telephone' => $donnees['client_telephone'],
                     'client_localite' => $donnees['client_localite'] ?? null,
+                    'mode_retrait' => $donnees['mode_retrait'],
                 ],
             );
         } catch (\RuntimeException $e) {
