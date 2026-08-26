@@ -10,7 +10,7 @@
     @method($methode)
 
     {{-- Photo du produit --}}
-    <div class="bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="glass-solid p-5">
         <div x-data="apercuPhoto('{{ $imageActuelle }}')" class="flex flex-col items-center">
             <template x-if="apercu">
                 <img :src="apercu" alt="" class="h-44 w-44 object-cover rounded-xl border border-fond-alterne">
@@ -23,7 +23,7 @@
                 </div>
             </template>
 
-            <label class="mt-3 cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 border border-principale text-principale text-sm font-semibold rounded-lg">
+            <label class="mt-3 cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 border border-principale text-principale text-sm font-semibold rounded-xl">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
@@ -37,7 +37,7 @@
     </div>
 
     {{-- Informations --}}
-    <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm space-y-4">
+    <div class="mt-4 glass-solid p-5 space-y-4">
         <div>
             <x-input-label for="produit_nom" value="Nom du produit" />
             <x-text-input id="produit_nom" class="block mt-1 w-full" type="text" name="nom"
@@ -129,7 +129,7 @@
                     </button>
                 </div>
                 <select id="produit_categorie" name="categorie_id"
-                        class="mt-1 block w-full rounded-lg border-fond-alterne text-texte text-sm focus:border-principale focus:ring-principale/30">
+                        class="mt-1 block w-full rounded-xl border-fond-alterne text-texte text-sm focus:border-principale focus:ring-principale/30">
                     <option value="">— Aucune catégorie —</option>
                     @foreach ($boutique->categories as $cat)
                         <option value="{{ $cat->id }}" @selected(old('categorie_id', $produit?->categorie_id) == $cat->id)>{{ $cat->nom }}</option>
@@ -147,7 +147,7 @@
         </div>
 
         <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" x-model="promoActive" class="h-5 w-5 rounded-md border-fond-alterne text-accent focus:ring-accent">
+            <input type="checkbox" x-model="promoActive" class="h-5 w-5 rounded-xl border-fond-alterne text-accent focus:ring-accent">
             <span class="text-sm font-medium text-texte">Mettre ce produit en promo</span>
         </label>
 
@@ -228,12 +228,12 @@
             </div>
 
             <textarea id="produit_description" name="description" rows="3"
-                      class="mt-1 block w-full rounded-lg border-gray-300 text-texte"
+                      class="mt-1 block w-full rounded-xl border-fond-alterne text-texte"
                       placeholder="Taille, couleur, matière…">{{ old('description', $produit?->description) }}</textarea>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
 
             {{-- Bloc IA --}}
-            <div class="mt-3 p-3 bg-fond-alterne rounded-xl">
+            <div class="mt-3 p-3 glass-subtle rounded-xl">
                 <p class="text-xs font-medium text-texte-secondaire mb-2">Générer une description avec l'IA</p>
 
                 <div class="flex flex-wrap gap-2 mb-3">
@@ -264,7 +264,7 @@
                 </div>
 
                 <button type="button" @click="genererDescription()" :disabled="envoiIa"
-                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-accent text-white font-semibold text-sm rounded-lg transition disabled:opacity-50">
+                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-accent text-white font-semibold text-sm rounded-xl transition disabled:opacity-50">
                     <template x-if="!envoiIa">
                         <span class="inline-flex items-center gap-2">
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -287,7 +287,7 @@
             <span class="text-sm font-medium text-texte">Disponible à la vente</span>
             <input type="checkbox" name="est_disponible" value="1"
                    @checked($estDisponible)
-                   class="h-6 w-6 rounded-md border-fond-alterne text-accent focus:ring-accent">
+                   class="h-6 w-6 rounded-xl border-fond-alterne text-accent focus:ring-accent">
         </label>
 
         <label class="flex items-center justify-between cursor-pointer">
@@ -297,18 +297,18 @@
             </div>
             <input type="checkbox" name="est_en_solde" value="1"
                    @checked(old('est_en_solde', $produit?->est_en_solde))
-                   class="h-6 w-6 rounded-md border-fond-alterne text-alerte focus:ring-alerte">
+                   class="h-6 w-6 rounded-xl border-fond-alterne text-alerte focus:ring-alerte">
         </label>
     </div>
 
     <div class="mt-4 flex flex-col gap-3">
         <button type="submit" :disabled="envoiEnCours" :class="envoiEnCours ? 'opacity-60' : ''"
-                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-accent text-white font-semibold text-sm rounded-lg shadow-sm">
+                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-accent text-white font-semibold text-sm rounded-xl shadow-sm">
             <span x-show="envoiEnCours" x-cloak class="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></span>
             {{ $bouton }}
         </button>
         <a href="{{ route('produits.index') }}"
-           class="w-full inline-flex items-center justify-center px-4 py-3 border border-principale text-principale font-semibold text-sm rounded-lg">
+           class="w-full inline-flex items-center justify-center px-4 py-3 border border-principale text-principale font-semibold text-sm rounded-xl">
             Annuler
         </a>
     </div>

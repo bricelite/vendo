@@ -33,7 +33,7 @@
         </div>
 
         <div class="mt-6">
-            <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-md font-semibold text-sm text-white tracking-wide transition ease-in-out duration-150">
+            <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-xl font-semibold text-sm text-white tracking-wide transition ease-in-out duration-150">
                 Se connecter
             </button>
         </div>

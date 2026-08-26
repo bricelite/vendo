@@ -7,17 +7,17 @@
 
     <div class="py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            <div class="bg-fond rounded-lg shadow p-4">
+            <div class="glass-solid rounded-xl shadow p-4">
                 <p class="text-sm text-texte-secondaire">Boutiques</p>
                 <p class="text-2xl font-bold text-texte">{{ $boutiques->count() }}</p>
             </div>
-            <div class="bg-fond rounded-lg shadow p-4">
+            <div class="glass-solid rounded-xl shadow p-4">
                 <p class="text-sm text-texte-secondaire">Commandes en attente</p>
                 <p class="text-2xl font-bold text-texte">{{ $commandesEnAttente }}</p>
             </div>
         </div>
 
-        <div class="bg-fond rounded-lg shadow p-6">
+        <div class="glass-solid rounded-xl shadow p-6">
             <h3 class="text-lg font-semibold text-texte mb-4">Les boutiques</h3>
 
             @if ($boutiques->isEmpty())

@@ -24,7 +24,7 @@
     </div>
 
     @if ($commandes->isEmpty())
-        <div class="mt-6 bg-fond rounded-2xl shadow-sm p-10 text-center">
+        <div class="mt-6 glass-solid p-10 text-center">
             <p class="font-semibold text-texte">Aucune commande</p>
             <p class="mt-1 text-sm text-texte-secondaire">Les commandes des clients apparaîtront ici.</p>
         </div>
@@ -32,7 +32,7 @@
         <div class="mt-4 grid gap-3 md:grid-cols-2">
             @foreach ($commandes as $commande)
                 <a href="{{ route('commandes.montrer', $commande) }}"
-                   class="block bg-fond rounded-2xl p-4 shadow-sm">
+                   class="block glass-solid p-4">
                     <div class="flex items-center justify-between gap-3">
                         <div class="min-w-0">
                             <p class="font-semibold text-texte">{{ $commande->reference_courte }}</p>

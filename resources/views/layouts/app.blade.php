@@ -17,7 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-texte antialiased">
-        <div class="min-h-screen bg-fond-alterne pb-28 md:pb-6">
+        <div class="min-h-screen pb-28 md:pb-6">
             {{-- Barre haute : mobile uniquement --}}
             @include('layouts.navigation')
 

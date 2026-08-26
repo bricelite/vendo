@@ -10,7 +10,7 @@
                 </svg>
                 <p class="mt-4 text-texte secondaire">Votre panier est vide.</p>
                 <a href="{{ route('boutique-publique.accueil', $boutique) }}"
-                   class="mt-3 inline-block px-5 py-2.5 bg-principale text-white font-semibold text-sm rounded-lg">
+                   class="mt-3 inline-block px-5 py-2.5 bg-principale text-white font-semibold text-sm rounded-xl">
                     Parcourir la boutique
                 </a>
             </div>
@@ -19,14 +19,14 @@
             <div x-show="$store.panier.articles.length > 0">
                 <div class="space-y-3">
                     <template x-for="article in $store.panier.articles" :key="article.produit_id">
-                        <div class="flex gap-3 border border-fond-alterne rounded-lg p-3">
+                        <div class="flex gap-3 border border-fond-alterne rounded-xl p-3">
                             {{-- Photo miniature --}}
                             <template x-if="article.image_url">
                                 <img :src="'/uploads/' + article.image_url" :alt="article.nom"
-                                     class="h-14 w-14 rounded-lg object-cover bg-fond-alterne shrink-0">
+                                     class="h-14 w-14 rounded-xl object-cover bg-fond-alterne shrink-0">
                             </template>
                             <template x-if="!article.image_url">
-                                <div class="h-14 w-14 rounded-lg bg-fond-alterne flex items-center justify-center text-principale font-bold text-lg shrink-0"
+                                <div class="h-14 w-14 rounded-xl bg-fond-alterne flex items-center justify-center text-principale font-bold text-lg shrink-0"
                                      x-text="article.nom.charAt(0)"></div>
                             </template>
 
@@ -60,11 +60,11 @@
                 {{-- Fidélité --}}
                 @if ($boutique->seuil_fidele > 0 && $boutique->reduction_fidele > 0)
                     @if ($clientEstFidele)
-                        <div class="mt-3 p-3 bg-succes/10 rounded-lg text-sm text-succes font-medium text-right">
+                        <div class="mt-3 p-3 bg-succes/10 rounded-xl text-sm text-succes font-medium text-right">
                             Réduction fidèle activée : -{{ $boutique->reduction_fidele }}%
                         </div>
                     @else
-                        <div class="mt-3 p-3 bg-fond-alterne rounded-lg text-xs text-texte-secondaire text-right">
+                        <div class="mt-3 p-3 glass-subtle rounded-xl text-xs text-texte-secondaire text-right">
                             Encore {{ max(0, $boutique->seuil_fidele - $nbCommandesClient) }} commande(s) pour bénéficier de {{ $boutique->reduction_fidele }}% de réduction
                         </div>
                     @endif
@@ -83,13 +83,13 @@
             {{-- Commande en ligne : enregistrée pour le vendeur, le stock est mis à jour --}}
             <div x-show="$store.panier.articles.length > 0" class="space-y-4">
                 @if ($errors->has('articles'))
-                    <div class="bg-alerte/10 text-alerte text-sm rounded-lg px-4 py-3">
+                    <div class="bg-alerte/10 text-alerte text-sm rounded-xl px-4 py-3">
                         {{ $errors->first('articles') }}
                     </div>
                 @endif
 
                 @if (! Auth::check() || Auth::user()->role !== 'client')
-                    <div class="bg-fond-alterne rounded-lg p-3 text-sm text-texte-secondaire">
+                    <div class="glass-subtle rounded-xl p-3 text-sm text-texte-secondaire">
                         <a href="{{ route('client.login') }}" class="text-principale font-medium hover:underline">Connectez-vous</a>
                         pour suivre vos commandes et laisser des avis.
                     </div>
@@ -134,7 +134,7 @@
 
                     <div class="mt-6 space-y-3">
                         <button type="submit" :disabled="envoi"
-                                class="w-full py-3 bg-principale text-white font-semibold text-sm rounded-md text-center disabled:opacity-50">
+                                class="w-full py-3 bg-principale text-white font-semibold text-sm rounded-xl text-center disabled:opacity-50">
                             <template x-if="!envoi">
                                 <span>Commander</span>
                             </template>
@@ -143,7 +143,7 @@
                             </template>
                         </button>
                         <a href="{{ route('boutique-publique.accueil', $boutique) }}"
-                           class="block w-full py-3 border border-fond-alterne text-texte-secondaire font-semibold text-sm rounded-md text-center">
+                           class="block w-full py-3 border border-fond-alterne text-texte-secondaire font-semibold text-sm rounded-xl text-center">
                             Continuer mes achats
                         </a>
                     </div>

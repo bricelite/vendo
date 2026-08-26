@@ -4,9 +4,9 @@
            class="text-sm text-texte-secondaire hover:text-principale">← Tous les produits</a>
 
         @if ($produit->image_url)
-            <img src="{{ '/uploads/'.$produit->image_url }}" alt="{{ $produit->nom }}" class="mt-4 w-full h-64 sm:h-80 object-cover rounded-lg">
+            <img src="{{ '/uploads/'.$produit->image_url }}" alt="{{ $produit->nom }}" class="mt-4 w-full h-64 sm:h-80 object-cover rounded-xl">
         @else
-            <div class="mt-4 w-full h-64 sm:h-80 bg-fond-alterne flex items-center justify-center rounded-lg">
+            <div class="mt-4 w-full h-64 sm:h-80 bg-fond-alterne flex items-center justify-center rounded-xl">
                 <span class="text-6xl font-bold text-texte-secondaire">{{ mb_substr($produit->nom, 0, 1) }}</span>
             </div>
         @endif
@@ -51,7 +51,7 @@
                 <h3 class="font-semibold text-texte text-sm">Avis des clients</h3>
                 <div class="mt-2 space-y-2">
                     @foreach ($produit->avis->take(5) as $avisItem)
-                        <div class="bg-fond-alterne rounded-lg p-3">
+                        <div class="glass-subtle rounded-xl p-3">
                             <div class="flex items-center justify-between gap-2">
                                 <p class="text-sm font-medium text-texte">{{ $avisItem->client_nom }}</p>
                                 <div class="flex gap-0.5 shrink-0">
@@ -73,7 +73,7 @@
         @endif
 
         @if ($produit->estEnRupture())
-            <div class="mt-6 px-4 py-3 bg-alerte/10 text-alerte text-sm rounded-md">
+            <div class="mt-6 px-4 py-3 bg-alerte/10 text-alerte text-sm rounded-xl">
                 Ce produit est momentanément en rupture de stock.
             </div>
         @endif
@@ -81,7 +81,7 @@
         @if (! $produit->estEnRupture())
             <div class="fixed bottom-0 inset-x-0 z-10 bg-fond border-t border-fond-alterne px-4 py-3 sm:static sm:border-0 sm:px-0 sm:py-0 sm:mt-6">
                 <div class="max-w-3xl mx-auto flex items-center gap-3">
-                    <div class="flex items-center border border-fond-alterne rounded-md">
+                    <div class="flex items-center border border-fond-alterne rounded-xl">
                         <button type="button" @click="quantite = Math.max(1, quantite - 1)"
                                 class="px-3 py-2 text-texte hover:text-principale">−</button>
                         <span class="px-2 w-8 text-center font-semibold text-texte" x-text="quantite"></span>
@@ -91,7 +91,7 @@
 
                     <button type="button"
                             @click="$store.panier.ajouter({{ $produit->id }}, '{{ addslashes($produit->nom) }}', {{ $produit->prixActuel() }}, quantite, {{ $produit->stock_quantite }}, '{{ addslashes($produit->image_url ?? '') }}', '{{ $produit->id }}'); window.location.href = '{{ route('panier', $boutique) }}'"
-                            class="flex-1 py-3 bg-principale text-white font-semibold text-sm rounded-md text-center">
+                            class="flex-1 py-3 bg-principale text-white font-semibold text-sm rounded-xl text-center">
                         Commander
                     </button>
                 </div>

@@ -2,7 +2,7 @@
     <x-slot name="header">{{ $commande->reference_courte }}</x-slot>
 
     {{-- Statut et date --}}
-    <div class="bg-fond rounded-2xl p-5 shadow-sm flex items-center justify-between gap-3">
+    <div class="glass-solid p-5 flex items-center justify-between gap-3">
         <div>
             <p class="text-sm text-texte-secondaire">Commande du {{ $commande->created_at->translatedFormat('d M Y · H:i') }}</p>
             <p class="mt-1 text-lg font-bold text-texte">{{ number_format($commande->montant_produit, 0, ',', ' ') }} FCFA</p>
@@ -11,7 +11,7 @@
     </div>
 
     {{-- Client --}}
-    <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="mt-4 glass-solid p-5">
         <h3 class="text-sm font-semibold text-texte uppercase tracking-wide">Client</h3>
         <p class="mt-2 font-medium text-texte">{{ $commande->client_nom }}</p>
         <a href="tel:{{ $commande->client_telephone }}"
@@ -27,7 +27,7 @@
     </div>
 
     {{-- Articles --}}
-    <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="mt-4 glass-solid p-5">
         <h3 class="text-sm font-semibold text-texte uppercase tracking-wide">Articles</h3>
         <div class="mt-2 divide-y divide-fond-alterne">
             @foreach ($commande->lignes as $ligne)
@@ -67,10 +67,10 @@
                                x-model="code"
                                placeholder="_ _ _ _ _ _"
                                required inputmode="numeric" autocomplete="one-time-code"
-                               class="flex-1 rounded-lg border-fond-alterne text-center text-lg tracking-[0.4em] font-mono text-texte focus:border-avertissement focus:ring-avertissement/30">
+                               class="flex-1 rounded-xl border-fond-alterne text-center text-lg tracking-[0.4em] font-mono text-texte focus:border-avertissement focus:ring-avertissement/30">
                         <button type="submit"
                                 :disabled="sending || code.length !== 6"
-                                class="shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-avertissement text-white font-semibold text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                                class="shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-avertissement text-white font-semibold text-sm rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
                             <svg x-show="sending" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -91,7 +91,7 @@
             @method('PATCH')
             <input type="hidden" name="statut" value="confirmee">
             <button type="submit" data-statut-pour="en_attente"
-                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-succes text-white font-semibold text-sm rounded-lg shadow-sm">
+                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-succes text-white font-semibold text-sm rounded-xl shadow-sm">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
@@ -106,7 +106,7 @@
             <input type="hidden" name="statut" value="annulee">
             <button type="submit" data-statut-pour="en_attente,confirmee"
                     onclick="return confirm('Annuler cette commande ? Le stock sera remis en place.')"
-                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 border border-alerte text-alerte font-semibold text-sm rounded-lg">
+                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 border border-alerte text-alerte font-semibold text-sm rounded-xl">
                 Annuler la commande
             </button>
         </form>
@@ -117,7 +117,7 @@
             @method('PATCH')
             <input type="hidden" name="statut" value="livree">
             <button type="submit" data-statut-pour="confirmee"
-                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-succes text-white font-semibold text-sm rounded-lg shadow-sm">
+                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-succes text-white font-semibold text-sm rounded-xl shadow-sm">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                 </svg>

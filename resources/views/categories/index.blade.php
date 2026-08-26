@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Catégories</x-slot>
 
-    <div class="bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="glass-solid p-5">
         <p class="text-sm text-texte-secondaire mb-4">Organisez vos produits par catégorie pour aider vos clients à trouver ce qu'ils cherchent.</p>
 
         {{-- Formulaire d'ajout --}}
@@ -20,13 +20,13 @@
 
     {{-- Liste des catégories --}}
     @if ($categories->isEmpty())
-        <div class="mt-4 bg-fond rounded-2xl shadow-sm p-10 text-center">
+        <div class="mt-4 glass-solid p-10 text-center">
             <p class="text-texte-secondaire">Aucune catégorie. Ajoutez-en une ci-dessus.</p>
         </div>
     @else
         <div class="mt-4 space-y-2">
             @foreach ($categories as $categorie)
-                <div class="bg-fond rounded-2xl p-4 shadow-sm flex items-center justify-between gap-3"
+                <div class="glass-solid p-4 flex items-center justify-between gap-3"
                      x-data="{ edition: false }">
                     <div x-show="!edition" class="flex items-center gap-3 min-w-0">
                         <div class="h-10 w-10 rounded-full bg-principale/10 flex items-center justify-center text-principale font-semibold text-sm shrink-0">
@@ -43,7 +43,7 @@
                             @csrf
                             @method('PATCH')
                             <input type="text" name="nom" value="{{ $categorie->nom }}" maxlength="100" required
-                                   class="flex-1 rounded-lg border-fond-alterne text-sm text-texte focus:border-principale focus:ring-principale/30">
+                                   class="flex-1 rounded-xl border-fond-alterne text-sm text-texte focus:border-principale focus:ring-principale/30">
                             <button type="submit" class="text-succes text-sm font-medium shrink-0">OK</button>
                             <button type="button" @click="edition = false" class="text-texte-secondaire text-sm shrink-0">Annuler</button>
                         </form>

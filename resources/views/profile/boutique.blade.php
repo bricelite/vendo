@@ -2,7 +2,7 @@
     <x-slot name="header">Ma boutique</x-slot>
 
     @if (! $boutique)
-        <div class="bg-fond rounded-2xl shadow-sm p-10 text-center">
+        <div class="glass-solid p-10 text-center">
             <p class="text-texte">Vous n'avez pas encore de boutique.</p>
         </div>
     @else
@@ -15,7 +15,7 @@
         </div>
 
         {{-- Infos de base --}}
-        <div class="bg-fond rounded-2xl p-5 shadow-sm">
+        <div class="glass-solid p-5">
             <h3 class="font-semibold text-texte">Informations</h3>
 
             <form method="POST" action="{{ route('boutique.update') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
@@ -80,7 +80,7 @@
                 <div>
                     <x-input-label for="boutique_description" value="Description" />
                     <textarea id="boutique_description" name="description" rows="2" maxlength="500"
-                              class="mt-1 block w-full rounded-lg border-fond-alterne text-texte text-sm focus:border-principale focus:ring-principale/30"
+                              class="mt-1 block w-full rounded-xl border-fond-alterne text-texte text-sm focus:border-principale focus:ring-principale/30"
                               placeholder="Décrivez votre boutique en quelques mots">{{ old('description', $boutique->description) }}</textarea>
                     <x-input-error class="mt-2" :messages="$errors->get('description')" />
                 </div>
@@ -111,9 +111,9 @@
                 <p class="text-sm font-medium text-texte">Lien de ma boutique</p>
                 <p class="mt-1 text-xs text-texte-secondaire">Envoyez ce lien à vos clients sur WhatsApp, Facebook ou Instagram.</p>
                 <div class="mt-3 flex items-center gap-2">
-                    <p class="flex-1 min-w-0 text-sm text-principale truncate bg-fond-alterne rounded-lg px-3 py-2">{{ $lienBoutique }}</p>
+                    <p class="flex-1 min-w-0 text-sm text-principale truncate glass-subtle rounded-xl px-3 py-2">{{ $lienBoutique }}</p>
                     <button type="button" @click="copier()"
-                            class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-principale text-white font-semibold text-sm rounded-lg">
+                            class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-principale text-white font-semibold text-sm rounded-xl">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
                         </svg>
@@ -124,7 +124,7 @@
         </div>
 
         {{-- Paiements Mobile Money --}}
-        <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+        <div class="mt-4 glass-solid p-5">
             <h3 class="font-semibold text-texte">Recevoir mes paiements</h3>
             <p class="text-xs text-texte-secondaire mt-1">Les clients paieront directement sur ce numéro.</p>
 
@@ -162,7 +162,7 @@
         </div>
 
         {{-- Durée de réservation --}}
-        <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+        <div class="mt-4 glass-solid p-5">
             <h3 class="font-semibold text-texte">Durée de réservation par défaut</h3>
             <p class="text-xs text-texte-secondaire mt-1">Le temps laissé à un client pour payer un article réservé avant qu'il soit remis en vente.</p>
 
@@ -173,7 +173,7 @@
                 <div>
                     <x-input-label for="duree_reservation" value="Durée" />
                     <select id="duree_reservation" name="duree_reservation_defaut_minutes"
-                            class="mt-1 block w-full rounded-lg border-fond-alterne text-texte text-sm focus:border-principale focus:ring-principale/30">
+                            class="mt-1 block w-full rounded-xl border-fond-alterne text-texte text-sm focus:border-principale focus:ring-principale/30">
                         @php $dureeActuelle = old('duree_reservation_defaut_minutes', $boutique->duree_reservation_defaut_minutes ?? 360); @endphp
                         <option value="60" {{ $dureeActuelle == 60 ? 'selected' : '' }}>1 heure</option>
                         <option value="120" {{ $dureeActuelle == 120 ? 'selected' : '' }}>2 heures</option>
@@ -189,7 +189,7 @@
         </div>
 
         {{-- Programme fidélité --}}
-        <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+        <div class="mt-4 glass-solid p-5">
             <h3 class="font-semibold text-texte">Clients fidèles</h3>
             <p class="text-xs text-texte-secondaire mt-1">Récompensez vos clients réguliers avec une réduction automatique.</p>
 
@@ -211,7 +211,7 @@
                 </div>
 
                 @if ($boutique->seuil_fidele > 0 && $boutique->reduction_fidele > 0)
-                    <p class="text-xs text-succes bg-succes/10 rounded-lg px-3 py-2">
+                    <p class="text-xs text-succes bg-succes/10 rounded-xl px-3 py-2">
                         Vos clients reçoivent {{ $boutique->reduction_fidele }}% de réduction après {{ $boutique->seuil_fidele }} commande(s) payée(s).
                     </p>
                 @endif

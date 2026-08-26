@@ -2,7 +2,7 @@
     <x-slot name="header">Avis des clients</x-slot>
 
     @if ($avis->isEmpty())
-        <div class="bg-fond rounded-2xl shadow-sm p-10 text-center">
+        <div class="glass-solid p-10 text-center">
             <div class="mx-auto h-16 w-16 rounded-full bg-fond-alterne flex items-center justify-center">
                 <svg class="h-8 w-8 text-texte-secondaire" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.017 18L14.017 18.001M14.017 18v-.017A9.98 9.98 0 0112 18c-2.456 0-4.688-.884-6.417-2.349l-3.53.884 1.577-2.55A9.95 9.95 0 012.25 9.75c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z" />
@@ -12,7 +12,7 @@
             <p class="mt-1 text-sm text-texte-secondaire">Quand vos clients donnent leur avis, ils apparaissent ici.</p>
         </div>
     @else
-        <div class="bg-fond rounded-2xl p-5 shadow-sm flex items-center justify-between gap-3">
+        <div class="glass-solid p-5 flex items-center justify-between gap-3">
             <div>
                 <p class="text-3xl font-bold text-texte">{{ $noteMoyenne ? number_format($noteMoyenne, 1) : '—' }}</p>
                 <div class="mt-1 flex gap-0.5">
@@ -29,7 +29,7 @@
 
         <div class="mt-4 space-y-3">
             @foreach ($avis as $avisItem)
-                <div class="bg-fond rounded-2xl p-4 shadow-sm">
+                <div class="glass-solid p-4">
                     <div class="flex items-center justify-between gap-3">
                         <div class="min-w-0">
                             <p class="font-medium text-texte truncate">{{ $avisItem->produit->nom }}</p>

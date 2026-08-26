@@ -10,17 +10,17 @@
     </div>
 
     {{-- Mes informations --}}
-    <div class="bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="glass-solid p-5">
         @include('profile.partials.update-profile-information-form')
     </div>
 
     {{-- Mon mot de passe --}}
-    <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="mt-4 glass-solid p-5">
         @include('profile.partials.update-password-form')
     </div>
 
     {{-- Supprimer mon compte --}}
-    <div class="mt-4 bg-fond rounded-2xl p-5 shadow-sm">
+    <div class="mt-4 glass-solid p-5">
         @include('profile.partials.delete-user-form')
     </div>
 </x-app-layout>

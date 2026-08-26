@@ -29,7 +29,7 @@
     </div>
 
     <noscript>
-        <div class="mb-4 p-3 rounded-lg bg-avertissement/10 text-avertissement text-sm">
+        <div class="mb-4 p-3 rounded-xl bg-avertissement/10 text-avertissement text-sm">
             L'inscription nécessite JavaScript. Veuillez l'activer dans votre navigateur.
         </div>
     </noscript>
@@ -139,7 +139,7 @@
             </div>
 
             <button type="button" @click="continuer()" :disabled="envoiEnCours"
-                    class="mt-6 w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-lg font-semibold text-sm text-white tracking-wide hover:opacity-90 transition ease-in-out duration-150 disabled:opacity-50">
+                    class="mt-6 w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-xl font-semibold text-sm text-white tracking-wide hover:opacity-90 transition ease-in-out duration-150 disabled:opacity-50">
                 Continuer
             </button>
         </div>
@@ -170,7 +170,7 @@
                 </div>
 
                 <a href="https://www.google.com/maps" target="_blank" rel="noopener"
-                   class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 border border-fond-alterne rounded-lg text-sm font-medium text-texte hover:bg-fond-alterne transition">
+                   class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 border border-fond-alterne rounded-xl text-sm font-medium text-texte hover:bg-fond-alterne transition">
                     <svg class="h-5 w-5 text-succes" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
@@ -193,11 +193,11 @@
 
             <div class="mt-6 space-y-3">
                 <button type="button" @click="continuer()" :disabled="envoiEnCours"
-                        class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-lg font-semibold text-sm text-white tracking-wide hover:opacity-90 transition ease-in-out duration-150 disabled:opacity-50">
+                        class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-xl font-semibold text-sm text-white tracking-wide hover:opacity-90 transition ease-in-out duration-150 disabled:opacity-50">
                     Continuer
                 </button>
                 <button type="button" @click="retour()"
-                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-principale rounded-lg font-semibold text-sm text-principale bg-transparent hover:bg-principale/5 transition ease-in-out duration-150">
+                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-principale rounded-xl font-semibold text-sm text-principale bg-transparent hover:bg-principale/5 transition ease-in-out duration-150">
                     Retour
                 </button>
             </div>
@@ -232,7 +232,7 @@
 
             <div class="mt-6 space-y-3">
                 <button type="button" @click="continuer()" :disabled="envoiEnCours"
-                        class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-lg font-semibold text-sm text-white tracking-wide transition ease-in-out duration-150 disabled:opacity-50">
+                        class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-xl font-semibold text-sm text-white tracking-wide transition ease-in-out duration-150 disabled:opacity-50">
                     <template x-if="!envoiEnCours">
                         <span>Créer ma boutique</span>
                     </template>
@@ -241,7 +241,7 @@
                     </template>
                 </button>
                 <button type="button" @click="retour()"
-                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-principale rounded-lg font-semibold text-sm text-principale bg-transparent hover:bg-principale/5 transition ease-in-out duration-150">
+                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-principale rounded-xl font-semibold text-sm text-principale bg-transparent hover:bg-principale/5 transition ease-in-out duration-150">
                     Retour
                 </button>
                 <button type="button" @click="soumettre()"

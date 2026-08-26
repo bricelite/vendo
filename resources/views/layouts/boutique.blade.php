@@ -16,7 +16,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-texte antialiased bg-fond" data-boutique-id="{{ $boutique->id }}">
+    <body class="font-sans text-texte antialiased" data-boutique-id="{{ $boutique->id }}">
         <div id="vendo-toasts" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm space-y-2 pointer-events-none"></div>
         @php
             $noteMoyenneBoutique = \App\Models\Avis::whereHas('produit', fn ($q) => $q->where('boutique_id', $boutique->id))->avg('note');
@@ -89,7 +89,7 @@
             {{ $slot }}
         </main>
 
-        <footer class="border-t border-fond-alterne">
+        <footer class="border-t border-white/10">
             <div class="max-w-3xl mx-auto px-4 py-4 text-center text-xs text-texte-secondaire">
                 Propulsé par <a href="/" class="text-principale font-semibold">Vendo</a>
             </div>
