@@ -53,8 +53,7 @@
                         <img src="{{ '/uploads/'.$boutique->logo_url }}" alt="{{ $boutique->nom }}"
                              class="h-[38px] w-[38px] rounded-[9px] object-cover border-2 border-white">
                     @else
-                        <div class="h-[38px] w-[38px] rounded-[9px] flex items-center justify-center text-white font-bold text-lg border-2 border-white"
-                             style="background: #1F3A5F">
+                        <div class="h-[38px] w-[38px] rounded-[9px] flex items-center justify-center text-white font-bold text-lg border-2 border-white bg-principale">
                             {{ mb_substr($boutique->nom, 0, 1) }}
                         </div>
                     @endif

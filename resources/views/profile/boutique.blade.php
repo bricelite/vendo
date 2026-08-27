@@ -197,7 +197,7 @@
                 @csrf
                 @method('PATCH')
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <x-input-label for="seuil_fidele" value="Après combien de commandes ?" />
                         <x-text-input id="seuil_fidele" name="seuil_fidele" type="number" min="0" max="100" class="mt-1 block w-full"

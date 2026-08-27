@@ -2,7 +2,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" x-data="{ envoiEnCours: false }" @submit="envoiEnCours = true">
         @csrf
 
         <!-- Téléphone -->
@@ -33,8 +33,17 @@
         </div>
 
         <div class="mt-6">
-            <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-3 bg-principale border border-transparent rounded-xl font-semibold text-sm text-white tracking-wide transition ease-in-out duration-150">
-                Se connecter
+            <button type="submit" :disabled="envoiEnCours"
+                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-principale border border-transparent rounded-xl font-semibold text-sm text-white tracking-wide transition ease-in-out duration-150 hover:opacity-90 disabled:opacity-50">
+                <template x-if="!envoiEnCours">
+                    <span>Se connecter</span>
+                </template>
+                <template x-if="envoiEnCours">
+                    <span class="inline-flex items-center gap-2">
+                        <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                        Connexion…
+                    </span>
+                </template>
             </button>
         </div>
     </form>
