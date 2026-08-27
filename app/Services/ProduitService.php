@@ -16,10 +16,14 @@ class ProduitService
      * Crée un produit dans la boutique, avec sa photo éventuelle.
      * La photo est déjà compressée côté client (voir AGENTS §2.6) avant l'envoi.
      */
-    public function creer(Boutique $boutique, array $donnees, ?UploadedFile $image): Produit
+    public function creer(Boutique $boutique, array $donnees, ?UploadedFile $image, ?array $imagesSupplementaires = null): Produit
     {
         if ($image) {
             $donnees['image_url'] = $this->enregistrerImage($image);
+        }
+
+        if ($imagesSupplementaires) {
+            $donnees['images_supplementaires'] = $this->enregistrerImages($imagesSupplementaires);
         }
 
         return $boutique->produits()->create($donnees);
@@ -28,16 +32,46 @@ class ProduitService
     /**
      * Modifie un produit. Une nouvelle photo remplace l'ancienne.
      */
-    public function modifier(Produit $produit, array $donnees, ?UploadedFile $image): Produit
+    public function modifier(Produit $produit, array $donnees, ?UploadedFile $image, ?array $imagesSupplementaires = null): Produit
     {
         if ($image) {
             $this->supprimerImage($produit->image_url);
             $donnees['image_url'] = $this->enregistrerImage($image);
         }
 
+        if ($imagesSupplementaires !== null) {
+            // Supprimer les anciennes images supplémentaires
+            if ($produit->images_supplementaires) {
+                foreach ($produit->images_supplementaires as $ancienne) {
+                    $this->supprimerImage($ancienne);
+                }
+            }
+            $donnees['images_supplementaires'] = $this->enregistrerImages($imagesSupplementaires);
+        }
+
         $produit->update($donnees);
 
         return $produit;
+    }
+
+    /**
+     * Duplique un produit avec le suffixe " (copie)", stock à 0, non disponible.
+     */
+    public function dupliquer(Produit $source): Produit
+    {
+        $donnees = [
+            'nom' => $source->nom.' (copie)',
+            'description' => $source->description,
+            'prix' => $source->prix,
+            'prix_promo' => null,
+            'stock_quantite' => 0,
+            'categorie_id' => $source->categorie_id,
+            'est_disponible' => false,
+            'est_en_solde' => false,
+            'alerte_stock_bas' => false,
+        ];
+
+        return $this->creer($source->boutique, $donnees, null);
     }
 
     /**
@@ -56,6 +90,22 @@ class ProduitService
             ]);
             throw $e;
         }
+    }
+
+    /**
+     * Sauvegarde plusieurs photos et renvoie un tableau de noms de fichiers.
+     */
+    private function enregistrerImages(array $images): array
+    {
+        $noms = [];
+
+        foreach ($images as $image) {
+            if ($image instanceof UploadedFile) {
+                $noms[] = $this->enregistrerImage($image);
+            }
+        }
+
+        return $noms;
     }
 
     /**
@@ -79,5 +129,23 @@ class ProduitService
                 'erreur' => $e->getMessage(),
             ]);
         }
+    }
+
+    /**
+     * Conserve uniquement les images listées, supprime les autres du disque et met à jour le modèle.
+     */
+    public function conserverImages(Produit $produit, array $nomsGardes): void
+    {
+        if (! $produit->images_supplementaires) {
+            return;
+        }
+
+        $aSupprimer = array_diff($produit->images_supplementaires, $nomsGardes);
+
+        foreach ($aSupprimer as $nom) {
+            $this->supprimerImage($nom);
+        }
+
+        $produit->update(['images_supplementaires' => array_values($nomsGardes)]);
     }
 }

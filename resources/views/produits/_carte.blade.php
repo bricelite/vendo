@@ -1,4 +1,17 @@
-<article class="glass-solid p-4" id="produit-{{ $produit->id }}" data-produit-carte="{{ $produit->id }}">
+@php
+    // Déterminer le statut filtre pour ce produit
+    $statutFiltre = 'en_stock';
+    if (! $produit->est_disponible) {
+        $statutFiltre = 'en_stock'; // masqué mais en stock
+    } elseif ($produit->estEnRupture()) {
+        $statutFiltre = 'rupture';
+    } elseif ($produit->promoActive()) {
+        $statutFiltre = 'promo';
+    }
+@endphp
+
+<article class="glass-solid p-4" id="produit-{{ $produit->id }}" data-produit-carte="{{ $produit->id }}"
+         data-produit-statut="{{ $statutFiltre }}">
     <div class="flex gap-3">
         @if ($produit->image_url)
             <img src="{{ '/uploads/'.$produit->image_url }}" alt=""
@@ -12,7 +25,7 @@
         @endif
 
         <div class="min-w-0 flex-1">
-            <p class="font-semibold text-texte truncate">{{ $produit->nom }}</p>
+            <p class="font-semibold text-texte truncate" data-produit-nom>{{ $produit->nom }}</p>
 
             <div class="mt-1 flex flex-wrap items-center gap-1.5">
                 @if (! $produit->est_disponible)
@@ -45,6 +58,17 @@
             </svg>
             Modifier
         </a>
+
+        <form method="POST" action="{{ route('produits.dupliquer', $produit) }}" class="flex-1">
+            @csrf
+            <button type="submit"
+                    class="inline-flex w-full items-center justify-center gap-1 px-3 py-2 text-sm font-medium text-texte-secondaire rounded-xl hover:bg-fond-alterne">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                </svg>
+                Dupliquer
+            </button>
+        </form>
 
         <form method="POST" action="{{ route('produits.disponibilite', $produit) }}"
               data-ajax data-action="disponibilite" class="flex-1">

@@ -2,6 +2,9 @@
     $produit = $produit ?? null;
     $estDisponible = $estDisponible ?? true;
     $imageActuelle = $produit && $produit->image_url ? url('/uploads/'.$produit->image_url) : '';
+    $imagesSup = $produit && $produit->images_supplementaires
+        ? collect($produit->images_supplementaires)->map(fn ($img) => url('/uploads/'.$img))->toJson()
+        : '[]';
 @endphp
 
 <form method="POST" action="{{ $action }}" enctype="multipart/form-data"
@@ -9,31 +12,66 @@
     @csrf
     @method($methode)
 
-    {{-- Photo du produit --}}
-    <div class="glass-solid p-5">
-        <div x-data="apercuPhoto('{{ $imageActuelle }}')" class="flex flex-col items-center">
-            <template x-if="apercu">
-                <img :src="apercu" alt="" class="h-44 w-44 object-cover rounded-xl border border-fond-alterne">
-            </template>
-            <template x-if="!apercu">
-                <div class="h-44 w-44 rounded-xl border-2 border-dashed border-fond-alterne flex items-center justify-center bg-fond-alterne/40">
-                    <svg class="h-10 w-10 text-texte-secondaire" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                    </svg>
-                </div>
-            </template>
+    {{-- Photos du produit --}}
+    <div class="glass-solid p-5"
+         x-data="apercuMultiPhoto('{{ $imageActuelle }}', '{{ $imagesSup }}')">
 
-            <label class="mt-3 cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 border border-principale text-principale text-sm font-semibold rounded-xl">
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
-                </svg>
-                <span x-text="apercu ? 'Changer la photo' : 'Ajouter une photo'"></span>
-                <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="hidden" @change="compresse($event)">
-            </label>
-            <p class="mt-2 text-xs text-texte-secondaire">La photo est réduite automatiquement pour charger vite sur téléphone.</p>
+        {{-- Champ hidden pour garder les images existantes non supprimées --}}
+        <template x-if="photos.length > 0 || '{{ $imageActuelle }}'">
+            <input type="hidden" name="images_gardees" :value="JSON.stringify(imagesGardees)">
+        </template>
+
+        <div class="flex flex-col items-center">
+            {{-- Vignettes --}}
+            <div class="flex items-center gap-2 flex-wrap justify-center">
+                {{-- Photo principale --}}
+                <div class="relative">
+                    <template x-if="photoPrincipale">
+                        <img :src="photoPrincipale" alt="" class="h-28 w-28 object-cover rounded-xl border border-fond-alterne">
+                    </template>
+                    <template x-if="!photoPrincipale">
+                        <div class="h-28 w-28 rounded-xl border-2 border-dashed border-fond-alterne flex items-center justify-center bg-fond-alterne/40">
+                            <svg class="h-8 w-8 text-texte-secondaire" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                            </svg>
+                        </div>
+                    </template>
+                    <label class="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl opacity-0 hover:opacity-100 cursor-pointer transition">
+                        <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
+                        </svg>
+                        <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="hidden" @change="compressePrincipale($event)">
+                    </label>
+                </div>
+
+                {{-- Photos supplémentaires --}}
+                @foreach ([0, 1] as $i)
+                    <div class="relative" x-show="photos[{{ $i }}]">
+                        <img :src="photos[{{ $i }}]?.url" alt="" class="h-28 w-28 object-cover rounded-xl border border-fond-alterne">
+                        <button type="button" @click="supprimerPhoto({{ $i }})"
+                                class="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-alerte text-white flex items-center justify-center text-xs font-bold shadow">
+                            &times;
+                        </button>
+                    </div>
+                @endforeach
+
+                {{-- Bouton + --}}
+                <template x-if="peutAjouter">
+                    <label class="h-28 w-28 rounded-xl border-2 border-dashed border-fond-alterne flex flex-col items-center justify-center bg-fond-alterne/40 cursor-pointer hover:border-principale/50 transition">
+                        <svg class="h-6 w-6 text-texte-secondaire" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                        <span class="text-[10px] text-texte-secondaire mt-0.5">Ajouter</span>
+                        <input type="file" name="images_supplementaires[]" accept="image/jpeg,image/png,image/webp" class="hidden" @change="ajouterPhoto($event)">
+                    </label>
+                </template>
+            </div>
+
+            <p class="mt-2 text-xs text-texte-secondaire">Les photos sont réduites automatiquement pour charger vite sur téléphone.</p>
         </div>
         <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        <x-input-error :messages="$errors->get('images_supplementaires')" class="mt-1" />
     </div>
 
     {{-- Informations --}}
@@ -164,6 +202,17 @@
                           :value="old('stock_quantite', $produit?->stock_quantite)" required placeholder="Ex. : 10" />
             <x-input-error :messages="$errors->get('stock_quantite')" class="mt-2" />
         </div>
+
+        {{-- Alerte stock bas --}}
+        <label class="flex items-center justify-between cursor-pointer">
+            <div>
+                <span class="text-sm font-medium text-texte">Alerte stock bas</span>
+                <p class="text-xs text-texte-secondaire">Notifie la vendeuse quand il reste moins de 2 articles.</p>
+            </div>
+            <input type="checkbox" name="alerte_stock_bas" value="1"
+                   @checked(old('alerte_stock_bas', $produit?->alerte_stock_bas))
+                   class="h-6 w-6 rounded-xl border-fond-alterne text-accent focus:ring-accent">
+        </label>
 
         {{-- Description + IA --}}
         <div x-data="{

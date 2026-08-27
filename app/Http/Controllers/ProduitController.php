@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ProduitController extends Controller
 {
     /**
-     * Liste les produits de la boutique du vendeur.
+     * Liste les produits de la boutique du vendeur connecté.
      */
     public function index(Request $request)
     {
@@ -69,8 +69,13 @@ class ProduitController extends Controller
         // Cases à cocher : absentes de la requête quand décochées
         $donnees['est_disponible'] = $request->boolean('est_disponible');
         $donnees['est_en_solde'] = $request->boolean('est_en_solde');
+        $donnees['alerte_stock_bas'] = $request->boolean('alerte_stock_bas');
 
-        $produit = $produitService->creer($boutique, $donnees, $request->file('image'));
+        $imagesSup = $request->hasFile('images_supplementaires')
+            ? $request->file('images_supplementaires')
+            : null;
+
+        $produit = $produitService->creer($boutique, $donnees, $request->file('image'), $imagesSup);
 
         return redirect()->route('produits.index')
             ->with('succes', 'Produit « '.$produit->nom.' » ajouté à votre boutique.');
@@ -88,8 +93,20 @@ class ProduitController extends Controller
         // Cases à cocher : absentes de la requête quand décochées
         $donnees['est_disponible'] = $request->boolean('est_disponible');
         $donnees['est_en_solde'] = $request->boolean('est_en_solde');
+        $donnees['alerte_stock_bas'] = $request->boolean('alerte_stock_bas');
 
-        $produitService->modifier($produit, $donnees, $request->file('image'));
+        $imagesSup = $request->hasFile('images_supplementaires')
+            ? $request->file('images_supplementaires')
+            : null;
+
+        // Si le formulaire envoie images_gardees, on traite la conservation
+        $imagesGardees = $request->input('images_gardees');
+        if ($imagesGardees !== null && $imagesSup === null) {
+            $gardees = json_decode($imagesGardees, true) ?? [];
+            $produitService->conserverImages($produit, $gardees);
+        }
+
+        $produitService->modifier($produit, $donnees, $request->file('image'), $imagesSup);
 
         return redirect()->route('produits.index')
             ->with('succes', 'Produit « '.$produit->nom.' » modifié.');
@@ -103,6 +120,14 @@ class ProduitController extends Controller
         $this->autoriserVendeur($request->user(), $produit);
 
         $produitService->supprimerImage($produit->image_url);
+
+        // Supprimer les images supplémentaires
+        if ($produit->images_supplementaires) {
+            foreach ($produit->images_supplementaires as $img) {
+                $produitService->supprimerImage($img);
+            }
+        }
+
         $produit->delete();
 
         if ($request->wantsJson()) {
@@ -135,6 +160,19 @@ class ProduitController extends Controller
         return redirect()->back()->with('succes', $message);
     }
 
+    /**
+     * Duplique un produit : copie avec stock à 0, non disponible.
+     */
+    public function dupliquer(Request $request, Produit $produit, ProduitService $produitService)
+    {
+        $this->autoriserVendeur($request->user(), $produit);
+
+        $copie = $produitService->dupliquer($produit);
+
+        return redirect()->route('produits.modifier', $copie)
+            ->with('succes', 'Produit dupliqué. Modifiez-le puis activez-le.');
+    }
+
     private function reglesValidation(): array
     {
         return [
@@ -146,7 +184,10 @@ class ProduitController extends Controller
             'stock_quantite' => ['required', 'integer', 'min:0'],
             'est_disponible' => ['nullable', 'boolean'],
             'est_en_solde' => ['nullable', 'boolean'],
+            'alerte_stock_bas' => ['nullable', 'boolean'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:10240'],
+            'images_supplementaires' => ['nullable', 'array', 'max:2'],
+            'images_supplementaires.*' => ['image', 'mimes:jpeg,png,webp', 'max:10240'],
         ];
     }
 

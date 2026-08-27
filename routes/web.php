@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/produits', [ProduitController::class, 'store'])->name('produits.store');
     Route::patch('/produits/{produit}', [ProduitController::class, 'update'])->name('produits.update');
     Route::patch('/produits/{produit}/disponibilite', [ProduitController::class, 'basculerDisponibilite'])->name('produits.disponibilite');
+    Route::post('/produits/{produit}/dupliquer', [ProduitController::class, 'dupliquer'])->name('produits.dupliquer');
     Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
 
     // Catégories

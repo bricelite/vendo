@@ -77,31 +77,77 @@ document.addEventListener('alpine:init', () => {
     });
 
     /**
-     * Aperçu d'une photo de produit : compression avant envoi, puis affichage.
+     * Aperçu multi-photos d'un produit : compression avant envoi, puis affichage.
+     * Gère la photo principale + jusqu'à 2 images supplémentaires.
      */
-    Alpine.data('apercuPhoto', (imageExistante) => ({
-        apercu: imageExistante || '',
+    Alpine.data('apercuMultiPhoto', (imagePrincipale, imagesSupJson) => {
+        const existantes = imagesSupJson ? JSON.parse(imagesSupJson) : [];
 
-        async compresse(event) {
-            const entree = event.target;
-            const fichier = entree.files && entree.files[0];
+        return {
+            photoPrincipale: imagePrincipale || '',
+            photos: existantes.map(url => ({ url, fichier: null })),
+            MAX_PHOTOS: 3,
 
-            if (!fichier) {
-                return;
-            }
+            get nombreTotal() {
+                return (this.photoPrincipale ? 1 : 0) + this.photos.length;
+            },
 
-            try {
-                const compresse = await comprimerImage(fichier);
-                const transfert = new DataTransfer();
-                transfert.items.add(compresse);
-                entree.files = transfert.files;
-                this.apercu = URL.createObjectURL(compresse);
-            } catch {
-                // Si la compression échoue (photo énorme…), on envoie l'original.
-                this.apercu = URL.createObjectURL(fichier);
-            }
-        },
-    }));
+            get peutAjouter() {
+                return this.nombreTotal < this.MAX_PHOTOS;
+            },
+
+            get imagesGardees() {
+                // Retourne les URLs des images supplémentaires que l'utilisateur veut garder
+                return this.photos
+                    .filter(p => !p.fichier)
+                    .map(p => {
+                        // Extraire juste le nom du fichier depuis l'URL
+                        const parts = p.url.split('/');
+                        return parts[parts.length - 1];
+                    });
+            },
+
+            async compressePrincipale(event) {
+                const fichier = event.target.files && event.target.files[0];
+                if (!fichier) return;
+
+                try {
+                    const compresse = await comprimerImage(fichier);
+                    const transfert = new DataTransfer();
+                    transfert.items.add(compresse);
+                    event.target.files = transfert.files;
+                    this.photoPrincipale = URL.createObjectURL(compresse);
+                } catch {
+                    this.photoPrincipale = URL.createObjectURL(fichier);
+                }
+            },
+
+            async ajouterPhoto(event) {
+                const fichier = event.target.files && event.target.files[0];
+                if (!fichier || this.photos.length >= 2) return;
+
+                try {
+                    const compresse = await comprimerImage(fichier);
+                    this.photos.push({
+                        url: URL.createObjectURL(compresse),
+                        fichier: compresse,
+                    });
+                    const transfert = new DataTransfer();
+                    transfert.items.add(compresse);
+                    event.target.files = transfert.files;
+                } catch {
+                    this.photos.push({
+                        url: URL.createObjectURL(fichier),
+                        fichier: fichier,
+                    });
+                }
+            },
+
+            supprimerPhoto(index) {
+                this.photos.splice(index, 1);
+            },
+        };
+    });
 
     /**
      * Copie le lien de la boutique dans le presse-papiers du vendeur.

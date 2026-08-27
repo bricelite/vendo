@@ -18,13 +18,17 @@ class Produit extends Model
         'prix_promo',
         'stock_quantite',
         'image_url',
+        'images_supplementaires',
         'est_disponible',
         'est_en_solde',
+        'alerte_stock_bas',
     ];
 
     protected $casts = [
         'est_disponible' => 'boolean',
         'est_en_solde' => 'boolean',
+        'alerte_stock_bas' => 'boolean',
+        'images_supplementaires' => 'array',
     ];
 
     public function boutique()

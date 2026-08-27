@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -27,6 +28,20 @@ class DashboardController extends Controller
         $nbCommandesPayees = (clone $commandesPayees)->count();
         $meilleureCommande = (clone $commandesPayees)->max('montant_produit');
 
+        // Tendance 7 jours : CA par jour pour les 7 derniers jours
+        $tendance7Jours = (clone $commandesPayees)
+            ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+            ->selectRaw('DATE(created_at) as jour, SUM(montant_produit) as total')
+            ->groupBy('jour')
+            ->pluck('total', 'jour')
+            ->toArray();
+
+        $jours7 = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $cle = Carbon::now()->subDays($i)->format('Y-m-d');
+            $jours7[$cle] = $tendance7Jours[$cle] ?? 0;
+        }
+
         return view('dashboard', compact(
             'boutique',
             'produits',
@@ -34,6 +49,7 @@ class DashboardController extends Controller
             'gainsTotaux',
             'nbCommandesPayees',
             'meilleureCommande',
+            'jours7',
         ));
     }
 }

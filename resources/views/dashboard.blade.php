@@ -9,10 +9,30 @@
         <h2 class="text-2xl font-bold text-texte">Bonjour {{ Auth::user()->name }}</h2>
 
         {{-- Vos gains --}}
+        @php
+            $maxJour = max(array_values($jours7));
+            $joursCles = array_keys($jours7);
+        @endphp
         <section class="mt-4 rounded-2xl bg-principale p-6 text-fond shadow-sm">
             <p class="text-sm text-fond/80">Chiffre d'affaires</p>
             <p class="mt-1 text-3xl font-bold">{{ number_format($gainsTotaux, 0, ',', ' ') }} FCFA</p>
-            <p class="mt-2 text-xs text-fond/70">Commandes confirmées et livrées</p>
+            <div class="mt-2 flex items-end justify-between gap-3">
+                <p class="text-xs text-fond/70">Commandes confirmées et livrées</p>
+                {{-- Mini tendance 7 jours --}}
+                <div class="flex items-end gap-1 h-8 shrink-0">
+                    @foreach ($joursCles as $i => $jour)
+                        @php
+                            $valeur = $jours7[$jour];
+                            $hauteur = $maxJour > 0 ? ($valeur / $maxJour) * 100 : 0;
+                            $estAujourdhui = $i === count($joursCles) - 1;
+                        @endphp
+                        <div class="w-2 rounded-sm transition-all"
+                             style="height: {{ max(4, $hauteur) }}%; opacity: {{ $estAujourdhui ? '1' : '0.5' }}; background: white;"
+                             title="{{ \Carbon\Carbon::parse($jour)->format('d/m') }} : {{ number_format($valeur, 0, ',', ' ') }} FCFA">
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </section>
 
         {{-- Compteurs --}}
@@ -82,10 +102,29 @@
         </section>
 
         {{-- Commandes récentes --}}
-        <section class="mt-6">
+        <section class="mt-6" x-data="{ filtreCommande: 'toutes' }">
             <div class="flex items-center justify-between mb-3">
                 <h3 class="font-semibold text-texte">Commandes récentes</h3>
                 <a href="{{ route('commandes.index') }}" class="text-sm text-principale font-medium">Tout voir</a>
+            </div>
+
+            {{-- Chips filtre --}}
+            <div class="flex gap-2 mb-3">
+                <button type="button" @click="filtreCommande = 'toutes'"
+                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full border transition"
+                        :class="filtreCommande === 'toutes' ? 'bg-accent text-white border-accent' : 'bg-white text-texte-secondaire border-fond-alterne'">
+                    Toutes
+                </button>
+                <button type="button" @click="filtreCommande = 'en_attente'"
+                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full border transition"
+                        :class="filtreCommande === 'en_attente' ? 'bg-accent text-white border-accent' : 'bg-white text-texte-secondaire border-fond-alterne'">
+                    En attente
+                </button>
+                <button type="button" @click="filtreCommande = 'livree'"
+                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full border transition"
+                        :class="filtreCommande === 'livree' ? 'bg-accent text-white border-accent' : 'bg-white text-texte-secondaire border-fond-alterne'">
+                    Livrées
+                </button>
             </div>
 
             @if ($commandes->isEmpty())
@@ -96,7 +135,9 @@
                 <div class="grid gap-3 md:grid-cols-2">
                     @foreach ($commandes as $commande)
                         <a href="{{ route('commandes.montrer', $commande) }}"
-                           class="block glass-solid p-4">
+                           class="block glass-solid p-4"
+                           x-show="filtreCommande === 'toutes' || filtreCommande === '{{ $commande->statut }}'"
+                           x-transition>
                             <div class="flex items-center justify-between gap-3">
                                 <div class="min-w-0">
                                     <p class="font-semibold text-texte">{{ $commande->reference_courte }}</p>
