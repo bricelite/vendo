@@ -1,33 +1,59 @@
-<nav class="sticky top-0 z-30 glass rounded-none border-t-0 border-x-0 md:hidden">
-    <div class="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <x-bouton-retour />
+{{-- Barre de navigation mobile (bas d'écran) --}}
+<nav class="fixed bottom-0 inset-x-0 z-30 glass rounded-none border-b-0 border-x-0 md:hidden">
+    <div class="max-w-2xl mx-auto flex items-center justify-around h-16 px-2">
+        <a href="{{ route('dashboard') }}"
+           class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition
+                  {{ request()->routeIs('dashboard') ? 'text-principale' : 'text-texte-secondaire' }}">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
+            </svg>
+            <span class="text-[10px] font-medium">Accueil</span>
+        </a>
 
-        @isset($header)
-            <h1 class="flex-1 text-center font-semibold text-texte truncate">{{ $header }}</h1>
-        @endisset
+        <a href="{{ route('produits.index') }}"
+           class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition
+                  {{ request()->routeIs('produits.*') ? 'text-principale' : 'text-texte-secondaire' }}">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+            </svg>
+            <span class="text-[10px] font-medium">Produits</span>
+        </a>
 
-        <div class="flex items-center gap-1 shrink-0">
-            @if (Auth::user()->boutique)
-                <a href="{{ route('boutique-publique.accueil', Auth::user()->boutique) }}" target="_blank"
-                   class="inline-flex items-center justify-center h-10 w-10 rounded-full text-texte-secondaire hover:text-principale hover:bg-principale/10"
-                   title="Voir ma boutique">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375a1.125 1.125 0 011.125-1.125h3.75a1.125 1.125 0 011.125 1.125V21" />
-                    </svg>
-                </a>
-            @endif
+        <a href="{{ route('categories.index') }}"
+           class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition
+                  {{ request()->routeIs('categories.*') ? 'text-principale' : 'text-texte-secondaire' }}">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25a2.25 2.25 0 01-2.25-2.25v-2.25z" />
+            </svg>
+            <span class="text-[10px] font-medium">Catégories</span>
+        </a>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                        class="inline-flex items-center justify-center h-10 w-10 rounded-full text-texte-secondaire hover:text-alerte hover:bg-alerte/10"
-                        title="Se déconnecter">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                    </svg>
-                </button>
-            </form>
-        </div>
+        <a href="{{ route('commandes.index') }}"
+           class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition
+                  {{ request()->routeIs('commandes.*') ? 'text-principale' : 'text-texte-secondaire' }}">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            </svg>
+            <span class="text-[10px] font-medium">Commandes</span>
+        </a>
+
+        <a href="{{ route('avis.index') }}"
+           class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition
+                  {{ request()->routeIs('avis.*') ? 'text-principale' : 'text-texte-secondaire' }}">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+            <span class="text-[10px] font-medium">Avis</span>
+        </a>
+
+        <a href="{{ route('profile.boutique') }}"
+           class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition
+                  {{ request()->routeIs('profile.*') ? 'text-principale' : 'text-texte-secondaire' }}">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+            <span class="text-[10px] font-medium">Profil</span>
+        </a>
     </div>
 </nav>
 
