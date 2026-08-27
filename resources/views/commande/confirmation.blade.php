@@ -3,16 +3,15 @@
     <div class="py-8 text-center" x-data x-init="$store.panier.vider()">
 
         {{-- Icône check --}}
-        <div class="inline-flex items-center justify-center h-12 w-12 rounded-full mb-4"
-             style="background: #E1EEDB">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" style="color: #3B6D11">
+        <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-succes/15 mb-4">
+            <svg class="h-6 w-6 text-succes" fill="none" viewBox="0 0 24 24" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
         </div>
 
-        <h1 class="font-fraunces font-semibold" style="font-size: 16px; color: #1F3A5F">Commande envoyée</h1>
+        <h1 class="text-xl font-bold text-principale">Commande envoyée</h1>
 
-        <p class="mt-2 text-center" style="font-size: 12px; color: #5F5E5A">
+        <p class="mt-2 text-center text-sm text-texte-secondaire">
             @if ($commande->mode_retrait === 'retrait')
                 {{ $commande->boutique->nom }} vous contactera au {{ $commande->client_telephone }} pour confirmer le retrait en boutique.
             @else
@@ -21,37 +20,35 @@
         </p>
 
         {{-- Carte récap --}}
-        <div class="mt-5 p-4 text-left max-w-sm mx-auto"
-             style="background: #FFFFFF; border: 0.5px solid #E7DFCB; border-radius: 10px">
+        <div class="mt-5 glass-solid p-4 text-left max-w-sm mx-auto rounded-xl">
             <div class="flex items-center justify-between mb-3">
-                <span style="font-size: 12px; color: #8A7550">Référence</span>
-                <span class="font-fraunces font-semibold" style="color: #1F3A5F">{{ $commande->reference_courte }}</span>
+                <span class="text-xs text-texte-secondaire">Référence</span>
+                <span class="font-semibold text-principale">{{ $commande->reference_courte }}</span>
             </div>
-            <div class="divide-y" style="border-color: #E7DFCB">
+            <div class="divide-y divide-fond-alterne">
                 @foreach ($commande->lignes as $ligne)
                     <div class="py-2.5 flex items-center justify-between gap-3 first:pt-0 last:pb-0">
                         <div class="flex items-center gap-3 min-w-0">
                             @if ($ligne->produit && $ligne->produit->image_url)
                                 <img src="{{ '/uploads/'.$ligne->produit->image_url }}" alt="{{ $ligne->nom_produit }}"
-                                     class="h-10 w-10 rounded-lg object-cover shrink-0" style="background: #EADFC5">
+                                     class="h-10 w-10 rounded-xl object-cover bg-fond-alterne shrink-0">
                             @else
-                                <div class="h-10 w-10 rounded-lg flex items-center justify-center font-bold text-sm shrink-0"
-                                     style="background: #EADFC5; color: #8A7550">
+                                <div class="h-10 w-10 rounded-xl bg-fond-alterne flex items-center justify-center text-principale font-bold text-sm shrink-0">
                                     {{ mb_substr($ligne->nom_produit, 0, 1) }}
                                 </div>
                             @endif
                             <div class="min-w-0">
-                                <p class="text-sm font-medium truncate" style="color: #1F3A5F">{{ $ligne->nom_produit }}</p>
-                                <p style="font-size: 12px; color: #8A7550">{{ $ligne->quantite }} × {{ number_format($ligne->prix_unitaire, 0, ',', ' ') }} FCFA</p>
+                                <p class="text-sm font-medium text-texte truncate">{{ $ligne->nom_produit }}</p>
+                                <p class="text-xs text-texte-secondaire">{{ $ligne->quantite }} × {{ number_format($ligne->prix_unitaire, 0, ',', ' ') }} FCFA</p>
                             </div>
                         </div>
-                        <p class="text-sm font-semibold shrink-0" style="color: #1F3A5F">{{ number_format($ligne->prix_unitaire * $ligne->quantite, 0, ',', ' ') }} FCFA</p>
+                        <p class="text-sm font-semibold text-texte shrink-0">{{ number_format($ligne->prix_unitaire * $ligne->quantite, 0, ',', ' ') }} FCFA</p>
                     </div>
                 @endforeach
             </div>
-            <div class="mt-2 pt-2 flex items-center justify-between" style="border-top: 0.5px solid #E7DFCB">
-                <span style="font-size: 13px; color: #1F3A5F">Total</span>
-                <span class="font-fraunces font-semibold" style="font-size: 18px; color: #1F3A5F">{{ number_format($commande->montant_produit, 0, ',', ' ') }} FCFA</span>
+            <div class="mt-2 pt-2 border-t border-fond-alterne flex items-center justify-between">
+                <span class="text-sm text-texte">Total</span>
+                <span class="text-lg font-bold text-principale">{{ number_format($commande->montant_produit, 0, ',', ' ') }} FCFA</span>
             </div>
         </div>
 
@@ -89,20 +86,19 @@
     {{-- Formulaire d'avis --}}
     <div class="mt-2" x-data="{ ouvert: false }">
         <button type="button" @click="ouvert = !ouvert"
-                class="w-full flex items-center justify-between rounded-xl p-4"
-                style="background: #FFFFFF; border: 0.5px solid #E7DFCB">
+                class="w-full flex items-center justify-between glass-solid rounded-xl p-4">
             <div class="flex items-center gap-3">
-                <div class="h-10 w-10 rounded-full flex items-center justify-center" style="background: #F0C87820">
-                    <svg class="h-5 w-5" style="color: #C08A2E" viewBox="0 0 20 20" fill="currentColor">
+                <div class="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    <svg class="h-5 w-5 text-accent" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div class="text-left">
-                    <p class="font-semibold text-sm" style="color: #1F3A5F">Donner votre avis</p>
-                    <p style="font-size: 12px; color: #8A7550">Aidez les autres acheteurs</p>
+                    <p class="font-semibold text-texte text-sm">Donner votre avis</p>
+                    <p class="text-xs text-texte-secondaire">Aidez les autres acheteurs</p>
                 </div>
             </div>
-            <svg class="h-5 w-5 transition-transform" style="color: #8A7550" :class="{ 'rotate-180': ouvert }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg class="h-5 w-5 text-texte-secondaire transition-transform" :class="{ 'rotate-180': ouvert }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
             </svg>
         </button>
@@ -110,8 +106,8 @@
         <div x-show="ouvert" x-transition.duration.200ms class="mt-3 space-y-4">
             @forelse ($produitsAvis as $item)
                 @php $produit = $item['produit']; @endphp
-                <div class="rounded-xl p-4" style="background: #FFFFFF; border: 0.5px solid #E7DFCB">
-                    <p class="font-medium text-sm" style="color: #1F3A5F">{{ $produit->nom }}</p>
+                <div class="glass-solid p-4 rounded-xl">
+                    <p class="font-medium text-texte text-sm">{{ $produit->nom }}</p>
 
                     @if ($item['dejaNote'])
                         <p class="mt-2 text-xs text-succes">✓ Avis déjà envoyé</p>
@@ -127,7 +123,7 @@
                                 @for ($i = 1; $i <= 5; $i++)
                                     <button type="button" @click="note = {{ $i }}"
                                             class="h-8 w-8 transition-colors"
-                                            :class="note >= {{ $i }} ? 'text-vendo-gold' : 'text-vendo-border'">
+                                            :class="note >= {{ $i }} ? 'text-accent' : 'text-fond-alterne'">
                                         <svg viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
                                         </svg>
@@ -136,14 +132,12 @@
                             </div>
 
                             <textarea name="commentaire" rows="2" maxlength="500"
-                                      class="mt-2 block w-full rounded-xl text-sm placeholder:text-vendo-text-muted/60 focus:border-vendo-gold focus:ring-vendo-gold/30"
-                                      style="border: 0.5px solid #E7DFCB"
+                                      class="mt-2 block w-full rounded-xl border-fond-alterne text-sm text-texte placeholder:text-texte-secondaire/60 focus:border-principale focus:ring-principale/30"
                                       placeholder="Votre commentaire (facultatif)"></textarea>
 
                             <button type="submit"
                                     :disabled="note === 0 || envoi"
-                                    class="mt-2 inline-flex items-center gap-2 px-4 py-2 font-semibold text-sm rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                                    style="background: #C08A2E; color: #1F3A5F">
+                                    class="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-principale text-white font-semibold text-sm rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
                                 <svg x-show="envoi" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -154,15 +148,14 @@
                     @endif
                 </div>
             @empty
-                <p class="text-sm text-center" style="color: #8A7550">Aucun produit dans cette commande.</p>
+                <p class="text-sm text-texte-secondaire text-center">Aucun produit dans cette commande.</p>
             @endforelse
         </div>
     </div>
 
     <div class="mt-6 text-center">
         <a href="{{ route('boutique-publique.accueil', $commande->boutique) }}"
-           class="inline-block px-6 py-3 font-semibold text-sm rounded-xl"
-           style="background: #FFFFFF; border: 1px solid #C08A2E; color: #1F3A5F">
+           class="inline-block px-6 py-3 bg-principale text-white font-semibold text-sm rounded-xl">
             Retour à la boutique
         </a>
     </div>
