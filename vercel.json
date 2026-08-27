@@ -1,6 +1,6 @@
 {
     "framework": null,
-    "installCommand": "",
+    "installCommand": "composer install --no-dev --optimize-autoloader --no-interaction",
     "buildCommand": "",
     "functions": {
         "api/index.php": {
