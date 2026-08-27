@@ -14,7 +14,7 @@
                               placeholder="Ex. : Vêtements, Chaussures..." />
                 <x-input-error class="mt-2" :messages="$errors->get('nom')" />
             </div>
-            <x-primary-button class="shrink-0 h-[42px]">Ajouter</x-primary-button>
+            <x-primary-button class="w-auto shrink-0 h-[42px]">Ajouter</x-primary-button>
         </form>
     </div>
 
