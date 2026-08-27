@@ -26,7 +26,7 @@
             $nombreAvisBoutique = \App\Models\Avis::whereHas('produit', fn ($q) => $q->where('boutique_id', $boutique->id))->count();
         @endphp
         {{-- Header boutique --}}
-        <header style="background: linear-gradient(160deg, #1F3A5F, #16283F)">
+        <header class="glass rounded-none rounded-b-2xl border-t-0 border-x-0">
             <div class="max-w-3xl mx-auto px-4 pt-5 pb-5">
                 {{-- Ligne du haut : logo + panier --}}
                 <div class="flex items-center justify-between mb-3">
@@ -41,18 +41,18 @@
                             </div>
                         @endif
                         <div>
-                            <a href="{{ route('boutique-publique.accueil', $boutique) }}" class="font-fraunces font-semibold text-base" style="color: #FBF7EE">
+                            <a href="{{ route('boutique-publique.accueil', $boutique) }}" class="font-fraunces font-semibold text-base" style="color: #1F3A5F">
                                 {{ $boutique->nom }}
                             </a>
                             @if ($nombreAvisBoutique > 0)
-                                <div class="flex items-center gap-1" style="font-size: 11px; color: #F0C878">
+                                <div class="flex items-center gap-1" style="font-size: 11px; color: #C08A2E">
                                     <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                     <span>{{ number_format($noteMoyenneBoutique, 1, ',', '.') }} ({{ $nombreAvisBoutique }} avis)</span>
                                 </div>
                             @endif
                         </div>
                     </div>
-                    <a href="{{ route('panier', $boutique) }}" class="relative" style="color: #FBF7EE" x-data>
+                    <a href="{{ route('panier', $boutique) }}" class="relative" style="color: #1F3A5F" x-data>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                         </svg>
@@ -66,7 +66,7 @@
 
                 {{-- Description --}}
                 @if ($boutique->description)
-                    <p style="font-size: 11px; color: #B9C4D4" class="mb-1">{{ $boutique->description }}</p>
+                    <p style="font-size: 11px; color: #8A7550" class="mb-1">{{ $boutique->description }}</p>
                 @endif
             </div>
         </header>
