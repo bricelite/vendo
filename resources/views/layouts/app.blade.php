@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-screen overflow-hidden">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,13 +16,14 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-texte antialiased">
-        <div class="min-h-screen pb-28 md:pb-6">
+    <body class="font-sans text-texte antialiased h-screen overflow-hidden">
+        <div class="flex h-full flex-col">
             {{-- Barre haute : mobile uniquement --}}
             @include('layouts.navigation')
 
-            {{-- Contenu principal --}}
-            <main class="max-w-5xl mx-auto px-4 pt-6 sm:pt-8 md:ml-60">
+            {{-- Contenu principal : seule zone qui défile, le cadre de la page ne défile pas
+                 (sauf dashboard, qui est verrouillé sans défilement) --}}
+            <main class="flex-1 min-h-0 w-full max-w-5xl mx-auto px-4 pt-6 sm:pt-8 pb-28 md:pb-6 md:ml-60 {{ ($sansDefilement ?? false) ? 'overflow-hidden' : 'overflow-y-auto' }}">
                 {{ $slot }}
             </main>
         </div>

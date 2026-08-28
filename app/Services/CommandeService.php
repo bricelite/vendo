@@ -16,7 +16,7 @@ class CommandeService
      * Applique la réduction fidèle si le client est éligible.
      *
      * @param  array<int, array{produit_id: int, quantite: int}>  $articlesPanier
-     * @param  array{client_nom: string, client_telephone: string, client_localite: string|null, user_id: int|null, mode_retrait: string}  $infosClient
+     * @param  array{client_nom: string, client_telephone: string, client_localite: string|null, user_id: int|null, mode_retrait: string, mode_paiement: string|null}  $infosClient
      *
      * @throws \RuntimeException si le stock est insuffisant pour un article
      */
@@ -61,6 +61,7 @@ class CommandeService
                 'client_telephone' => $infosClient['client_telephone'],
                 'client_localite' => $infosClient['client_localite'],
                 'mode_retrait' => $infosClient['mode_retrait'] ?? null,
+                'mode_paiement' => $infosClient['mode_paiement'] ?? null,
                 'statut' => 'en_attente',
                 'montant_produit' => $montantTotal,
             ]);

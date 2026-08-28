@@ -19,6 +19,7 @@ class Commande extends Model
         'statut',
         'montant_produit',
         'mode_retrait',
+        'mode_paiement',
         'code_retrait',
         'statut_retrait',
     ];

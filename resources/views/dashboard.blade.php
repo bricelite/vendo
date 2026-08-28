@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :sansDefilement="true">
     <x-slot name="header">Accueil</x-slot>
 
     @if (! $boutique)

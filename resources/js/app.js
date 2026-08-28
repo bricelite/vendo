@@ -77,6 +77,45 @@ document.addEventListener('alpine:init', () => {
     });
 
     /**
+     * Favoris du client, stockés par boutique dans le navigateur (sans compte).
+     * Chaque favori garde les infos du produit pour être affiché dans la liste.
+     */
+    const cleFavoris = 'vendo_favoris_' + (document.body.dataset.boutiqueId || '0');
+
+    Alpine.store('favoris', {
+        liste: JSON.parse(localStorage.getItem(cleFavoris) || '[]'),
+
+        sauvegarder() {
+            localStorage.setItem(cleFavoris, JSON.stringify(this.liste));
+        },
+
+        basculer(produit) {
+            const index = this.liste.findIndex((f) => f.produit_id === produit.produit_id);
+
+            if (index >= 0) {
+                this.liste.splice(index, 1);
+            } else {
+                this.liste.push({ ...produit });
+            }
+
+            this.sauvegarder();
+        },
+
+        estFavori(produitId) {
+            return this.liste.some((f) => f.produit_id === produitId);
+        },
+
+        retirer(produitId) {
+            this.liste = this.liste.filter((f) => f.produit_id !== produitId);
+            this.sauvegarder();
+        },
+
+        nombre() {
+            return this.liste.length;
+        },
+    });
+
+    /**
      * Aperçu multi-photos d'un produit : compression avant envoi, puis affichage.
      * Gère la photo principale + jusqu'à 2 images supplémentaires.
      */

@@ -74,4 +74,20 @@ class Produit extends Model
 
         return (int) round((1 - $this->prix_promo / $this->prix) * 100);
     }
+
+    /**
+     * Instantané du produit mis en favori (stocké côté client dans le navigateur).
+     * Les champs sont ceux affichés dans la liste "Mes favoris".
+     */
+    public function favorisSnapshot(): array
+    {
+        return [
+            'produit_id' => $this->id,
+            'nom' => $this->nom,
+            'prix_actuel' => $this->prixActuel(),
+            'prix_original' => $this->prix,
+            'image_url' => $this->image_url,
+            'slug' => (string) $this->id,
+        ];
+    }
 }

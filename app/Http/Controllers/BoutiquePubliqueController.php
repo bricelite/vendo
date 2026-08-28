@@ -115,4 +115,12 @@ class BoutiquePubliqueController extends Controller
 
         return view('boutique-publique.panier', compact('boutique', 'nbCommandesClient', 'clientEstFidele'));
     }
+
+    /**
+     * Liste des produits mis en favoris par le client (stockés dans son navigateur).
+     */
+    public function favoris(Boutique $boutique)
+    {
+        return view('boutique-publique.favoris', compact('boutique'));
+    }
 }

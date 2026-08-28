@@ -20,6 +20,7 @@ Route::get('/', function () {
 // Boutique publique (côté client, sans authentification)
 Route::get('/boutique/{boutique:slug}', [BoutiquePubliqueController::class, 'show'])->name('boutique-publique.accueil');
 Route::get('/boutique/{boutique:slug}/panier', [BoutiquePubliqueController::class, 'panier'])->name('panier');
+Route::get('/boutique/{boutique:slug}/favoris', [BoutiquePubliqueController::class, 'favoris'])->name('boutique-publique.favoris');
 Route::get('/boutique/{boutique:slug}/{produit}', [BoutiquePubliqueController::class, 'ficheProduit'])->name('boutique-publique.fiche-produit');
 
 // Commande côté client

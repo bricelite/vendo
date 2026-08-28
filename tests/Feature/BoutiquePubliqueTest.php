@@ -55,6 +55,16 @@ class BoutiquePubliqueTest extends TestCase
             ->assertSee('Votre panier');
     }
 
+    public function test_la_liste_des_favoris_se_affiche(): void
+    {
+        [$boutique] = $this->creerBoutiqueAvecProduit();
+
+        $response = $this->get('/boutique/'.$boutique->slug.'/favoris');
+
+        $response->assertOk();
+        $response->assertSee('Mes favoris');
+    }
+
     public function test_un_produit_dune_autre_boutique_nest_pas_accessible(): void
     {
         [, $produit] = $this->creerBoutiqueAvecProduit();
@@ -72,6 +82,8 @@ class BoutiquePubliqueTest extends TestCase
             'client_nom' => 'Kévin H.',
             'client_telephone' => '0196000000',
             'client_localite' => 'Fidjrossè',
+            'mode_retrait' => 'livraison',
+            'mode_paiement' => 'mobile_money',
             'articles' => [
                 ['produit_id' => $produit->id, 'quantite' => 2],
             ],
@@ -83,6 +95,8 @@ class BoutiquePubliqueTest extends TestCase
             'boutique_id' => $boutique->id,
             'statut' => 'en_attente',
             'montant_produit' => 24000,
+            'mode_retrait' => 'livraison',
+            'mode_paiement' => 'mobile_money',
         ]);
 
         $this->assertDatabaseHas('produits', [

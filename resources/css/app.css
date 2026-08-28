@@ -4,22 +4,21 @@
 
 @layer base {
     :root {
-        --couleur-principale: #3B82F6;   /* bleu ciel — en-têtes, boutons primaires */
-        --couleur-accent: #EAB308;       /* jaune doré — badges promo, CTA secondaire */
-        --couleur-texte: #1E293B;
-        --couleur-texte-secondaire: #64748B;
-        --couleur-fond: #EFF6FF;
-        --couleur-fond-alterne: #DBEAFE;
-        --couleur-succes: #22C55E;       /* confirmation paiement, stock disponible */
-        --couleur-alerte: #EF4444;       /* rupture de stock, erreur */
-        --couleur-avertissement: #F59E0B; /* stock faible, en attente */
+        --couleur-principale: #1EA562;   /* vert — éléments d'action, accents, écrans vendeur */
+        --couleur-accent: #F2801F;       /* orange — CTA secondaires, badges promo */
+        --couleur-texte: #1A1A1A;
+        --couleur-texte-secondaire: #6B6B63;
+        --couleur-fond: #FFFFFF;
+        --couleur-fond-alterne: #FAFAF8;
+        --couleur-succes: #1EA562;       /* confirmation paiement, stock disponible */
+        --couleur-alerte: #C0392B;       /* rupture de stock, erreur */
+        --couleur-avertissement: #C08A2E; /* stock faible, en attente */
     }
 
     body {
         @apply text-texte text-base antialiased;
-        background: linear-gradient(160deg, #DBEAFE 0%, #FEF3C7 50%, #DBEAFE 100%);
+        background: #FAFAF8;
         background-attachment: fixed;
-        min-height: 100vh;
     }
 
     [x-cloak] {
@@ -36,7 +35,7 @@
         border: 1px solid rgba(255, 255, 255, 0.35);
         border-radius: 1.5rem;
         box-shadow:
-            0 8px 32px rgba(31, 38, 135, 0.12),
+            0 8px 32px rgba(26, 26, 26, 0.10),
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
 
@@ -47,7 +46,7 @@
         border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 1.5rem;
         box-shadow:
-            0 8px 32px rgba(31, 38, 135, 0.10),
+            0 8px 32px rgba(26, 26, 26, 0.08),
             inset 0 1px 0 rgba(255, 255, 255, 0.6);
     }
 
@@ -60,12 +59,34 @@
     }
 
     .glass-dark {
-        background: rgba(30, 41, 59, 0.6);
+        background: rgba(26, 26, 26, 0.6);
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1.5rem;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Carte vitrée utilisée côté boutique client (sur fond #FAFAF8)
+       pour garder l'effet glass tout en restant lisible et clair. */
+    .glass-carte {
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(14px) saturate(160%);
+        -webkit-backdrop-filter: blur(14px) saturate(160%);
+        border: 1px solid rgba(228, 227, 220, 0.9);
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(26, 26, 26, 0.06);
+    }
+
+    /* Voile dégradé vert posé sur la photo d'accueil du landing vendeur.
+       Défini en CSS pur pour être toujours présent dans le build. */
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg,
+            rgba(30, 165, 98, 0.85) 0%,
+            rgba(30, 165, 98, 0.70) 50%,
+            rgba(27, 122, 61, 0.92) 100%);
     }
 
     /* ── Toast ─────────────────────────────────────────────── */
@@ -122,11 +143,11 @@
 @keyframes fab-lift-cycle {
     0%, 85%, 100% {
         transform: translateY(0);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        box-shadow: 0 4px 12px rgba(242, 128, 31, 0.30);
     }
     90% {
         transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.5);
+        box-shadow: 0 8px 24px rgba(242, 128, 31, 0.50);
     }
 }
 
